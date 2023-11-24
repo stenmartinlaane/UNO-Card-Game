@@ -1,0 +1,15 @@
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleAppProject/bin/Debug/net7.0/ConsoleAppProject
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleAppProject/bin/Debug/net7.0/ConsoleAppProject.deps.json
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleAppProject/bin/Debug/net7.0/ConsoleAppProject.runtimeconfig.json
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleAppProject/bin/Debug/net7.0/ConsoleAppProject.dll
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleAppProject/bin/Debug/net7.0/ConsoleAppProject.pdb
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleAppProject/obj/Debug/net7.0/ConsoleAppProject.csproj.AssemblyReference.cache
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleAppProject/obj/Debug/net7.0/ConsoleAppProject.GeneratedMSBuildEditorConfig.editorconfig
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleAppProject/obj/Debug/net7.0/ConsoleAppProject.AssemblyInfoInputs.cache
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleAppProject/obj/Debug/net7.0/ConsoleAppProject.AssemblyInfo.cs
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleAppProject/obj/Debug/net7.0/ConsoleAppProject.csproj.CoreCompileInputs.cache
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleAppProject/obj/Debug/net7.0/ConsoleAppProject.dll
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleAppProject/obj/Debug/net7.0/refint/ConsoleAppProject.dll
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleAppProject/obj/Debug/net7.0/ConsoleAppProject.pdb
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleAppProject/obj/Debug/net7.0/ConsoleAppProject.genruntimeconfig.cache
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleAppProject/obj/Debug/net7.0/ref/ConsoleAppProject.dll
