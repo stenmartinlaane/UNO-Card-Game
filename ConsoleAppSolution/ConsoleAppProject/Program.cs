@@ -1,11 +1,19 @@
-﻿namespace ConsoleAppProject
+﻿using MenuSystem;
+
+namespace ConsoleAppProject
 {
 
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            var mainMenu = ProgramMenus.GetMainMenu(ProgramMenus.GetOptionsMenu());
+            mainMenu.Run();
+
+            // var optionsMenu = ProgramMenus.GetOptionsMenu();
+            // optionsMenu.Run();
+
+
         }
     }
 }

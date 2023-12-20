@@ -17,14 +17,14 @@
           "/Users/stenmartinlaane/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "net7.0"
+          "net8.0"
         ],
         "sources": {
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {
               "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/MenuSystem/MenuSystem.csproj": {
                 "projectPath": "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/MenuSystem/MenuSystem.csproj"
@@ -39,8 +39,8 @@
         }
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "imports": [
             "net461",
             "net462",
@@ -57,7 +57,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/Users/stenmartinlaane/.dotnet/sdk/7.0.306/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/Cellar/dotnet/8.0.0/libexec/sdk/8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
@@ -74,14 +74,14 @@
           "/Users/stenmartinlaane/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "net7.0"
+          "net8.0"
         ],
         "sources": {
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -92,8 +92,8 @@
         }
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "imports": [
             "net461",
             "net462",
@@ -110,7 +110,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/Users/stenmartinlaane/.dotnet/sdk/7.0.306/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/Cellar/dotnet/8.0.0/libexec/sdk/8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -13,3 +13,7 @@
 /Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleAppProject/obj/Debug/net7.0/ConsoleAppProject.pdb
 /Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleAppProject/obj/Debug/net7.0/ConsoleAppProject.genruntimeconfig.cache
 /Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleAppProject/obj/Debug/net7.0/ref/ConsoleAppProject.dll
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleAppProject/bin/Debug/net7.0/MenuSystem.dll
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleAppProject/bin/Debug/net7.0/MenuSystem.pdb
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleAppProject/obj/Debug/net7.0/ConsoleAppProject.csproj.CopyComplete
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleAppProject/obj/Debug/net7.0/ConsoleAppProject.sourcelink.json

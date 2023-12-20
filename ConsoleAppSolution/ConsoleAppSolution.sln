@@ -6,6 +6,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenuSystem", "MenuSystem\Me
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{54D3BDD0-96B4-4A9D-9BCF-069BFD74ED3B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "!Solution Items", "!Solution Items", "{9CEB81E5-A7E4-49E1-86C3-BA475BE22B47}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\kaver\card-game-durak\README.md = ..\..\..\kaver\card-game-durak\README.md
+		..\..\..\kaver\Directory.Build.props = ..\..\..\kaver\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{40ADBDD8-D662-4BAE-9AF4-BDD9F60527C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngine", "GameEngine\GameEngine.csproj", "{9BCA3665-B04A-4892-8933-823C5608ED5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +34,15 @@ Global
 		{54D3BDD0-96B4-4A9D-9BCF-069BFD74ED3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54D3BDD0-96B4-4A9D-9BCF-069BFD74ED3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54D3BDD0-96B4-4A9D-9BCF-069BFD74ED3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40ADBDD8-D662-4BAE-9AF4-BDD9F60527C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40ADBDD8-D662-4BAE-9AF4-BDD9F60527C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40ADBDD8-D662-4BAE-9AF4-BDD9F60527C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40ADBDD8-D662-4BAE-9AF4-BDD9F60527C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BCA3665-B04A-4892-8933-823C5608ED5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BCA3665-B04A-4892-8933-823C5608ED5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BCA3665-B04A-4892-8933-823C5608ED5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BCA3665-B04A-4892-8933-823C5608ED5D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal

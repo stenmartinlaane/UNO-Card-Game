@@ -2,7 +2,7 @@ using System.ComponentModel;
 
 namespace Domain
 {
-    public enum EUnoCardValue
+    public enum ECardText
     {
         [Description("0")]
         Zero,
@@ -42,9 +42,6 @@ namespace Domain
 
         [Description("+2")]
         PlusTwo,
-
-        [Description("+4")]
-        PlusFour,
 
         [Description("Choose Color")]
         ChooseColor,

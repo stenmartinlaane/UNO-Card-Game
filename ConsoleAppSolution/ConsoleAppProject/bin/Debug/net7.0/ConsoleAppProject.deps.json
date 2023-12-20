@@ -7,14 +7,27 @@
   "targets": {
     ".NETCoreApp,Version=v7.0": {
       "ConsoleAppProject/1.0.0": {
+        "dependencies": {
+          "MenuSystem": "1.0.0"
+        },
         "runtime": {
           "ConsoleAppProject.dll": {}
+        }
+      },
+      "MenuSystem/1.0.0": {
+        "runtime": {
+          "MenuSystem.dll": {}
         }
       }
     }
   },
   "libraries": {
     "ConsoleAppProject/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MenuSystem/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

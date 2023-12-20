@@ -17,5 +17,5 @@ public enum ECardColor
     Yellow,
     
     [Description("⬛️️")]
-    Black
+    Wild
 }
