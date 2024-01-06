@@ -26,8 +26,238 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
+              "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleUI/ConsoleUI.csproj": {
+                "projectPath": "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleUI/ConsoleUI.csproj"
+              },
               "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/MenuSystem/MenuSystem.csproj": {
                 "projectPath": "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/MenuSystem/MenuSystem.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/Cellar/dotnet/8.0.0/libexec/sdk/8.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleUI/ConsoleUI.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleUI/ConsoleUI.csproj",
+        "projectName": "ConsoleUI",
+        "projectPath": "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleUI/ConsoleUI.csproj",
+        "packagesPath": "/Users/stenmartinlaane/.nuget/packages/",
+        "outputPath": "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleUI/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/stenmartinlaane/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/DAL/DAL.csproj": {
+                "projectPath": "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/DAL/DAL.csproj"
+              },
+              "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/GameEngine/GameEngine.csproj": {
+                "projectPath": "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/GameEngine/GameEngine.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/Cellar/dotnet/8.0.0/libexec/sdk/8.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/DAL/DAL.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/DAL/DAL.csproj",
+        "projectName": "DAL",
+        "projectPath": "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/DAL/DAL.csproj",
+        "packagesPath": "/Users/stenmartinlaane/.nuget/packages/",
+        "outputPath": "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/DAL/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/stenmartinlaane/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/Domain/Domain.csproj": {
+                "projectPath": "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/Domain/Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/Cellar/dotnet/8.0.0/libexec/sdk/8.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/Domain/Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/Domain/Domain.csproj",
+        "projectName": "Domain",
+        "projectPath": "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/Domain/Domain.csproj",
+        "packagesPath": "/Users/stenmartinlaane/.nuget/packages/",
+        "outputPath": "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/Domain/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/stenmartinlaane/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/Cellar/dotnet/8.0.0/libexec/sdk/8.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/GameEngine/GameEngine.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/GameEngine/GameEngine.csproj",
+        "projectName": "GameEngine",
+        "projectPath": "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/GameEngine/GameEngine.csproj",
+        "packagesPath": "/Users/stenmartinlaane/.nuget/packages/",
+        "outputPath": "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/GameEngine/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/stenmartinlaane/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/Domain/Domain.csproj": {
+                "projectPath": "/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/Domain/Domain.csproj"
               }
             }
           }

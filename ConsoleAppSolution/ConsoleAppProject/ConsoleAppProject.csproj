@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\ConsoleUI\ConsoleUI.csproj" />
       <ProjectReference Include="..\MenuSystem\MenuSystem.csproj" />
     </ItemGroup>
 

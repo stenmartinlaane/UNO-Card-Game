@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Reflection;
 
 namespace Domain;
 
@@ -17,5 +18,7 @@ public enum ECardColor
     Yellow,
     
     [Description("⬛️️")]
-    Wild
+    Wild,
+    
+    Null
 }

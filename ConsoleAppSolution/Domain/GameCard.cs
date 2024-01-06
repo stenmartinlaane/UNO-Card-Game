@@ -8,11 +8,17 @@ public class GameCard
         CardText = cardText;
     }
     
-    private ECardColor CardColor { get; set; }
-    private ECardText CardText { get; set; }
-
+    public ECardColor CardColor { get; set; }
+    public ECardText CardText { get; set; }
+    
     public override string ToString()
     {
-        return CardColor.ToString() + CardText.ToString();
+        return CardColor.ToDescriptionString().Trim() + CardText.ToDescriptionString().Trim();
     }
+    
+    public GameCard Clone()
+    {
+        return new GameCard(this.CardText, this.CardColor);
+    }
+
 }
