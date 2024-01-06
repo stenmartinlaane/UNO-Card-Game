@@ -30,23 +30,14 @@ public class ConsoleVisualizations
         );
         */
 
-        Console.WriteLine("Your current hand is: ");
+        Console.Write("Your current hand is: ");
         for (int i = 1; i < player.PlayerHand.Count; i++)
         {
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine(i.ToString() + ": ");
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.Write(i.ToString() + ":");
             Console.ResetColor();
-            Console.WriteLine();
+            Console.Write(player.PlayerHand[i - 1] + " ");
         }
-        
-        
-        Console.WriteLine("Your current hand is:");
-        
-                          string.Join(
-                              "  ",
-                              player.PlayerHand.Select((c, i) => (i+1) + ": " + c)
-                          )
-        );
     }
 
     public static void AskPlayerMoveMessage(GameState state)

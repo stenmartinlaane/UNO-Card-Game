@@ -1,8 +1,12 @@
+using ConsoleUI;
+using DAL;
+using Domain;
+using GameEngine;
 using MenuSystem;
 
 namespace ConsoleAppProject;
 
-public class ProgramMenus
+public static class ProgramMenus
 {
     public static Menu GetMainMenu(Menu optionsMenu)
     {
@@ -11,7 +15,11 @@ public class ProgramMenus
                 new MenuItem()
                 {
                     Shortcut = "s",
-                    MenuLabel = "Start a new game"
+                    MenuLabel = "Start a new game",
+                    Action = new GameController(
+                        new UnoEngine(GameOptions.PlayerEditedGAmeOptions),
+                        new GameRepositoryFileSystem()
+                        ).Run
                 },
                 new MenuItem()
                 {
