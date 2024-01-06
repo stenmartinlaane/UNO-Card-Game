@@ -1,0 +1,12 @@
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/MenuSystem/bin/Debug/net8.0/MenuSystem.deps.json
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/MenuSystem/bin/Debug/net8.0/MenuSystem.dll
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/MenuSystem/bin/Debug/net8.0/MenuSystem.pdb
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/MenuSystem/obj/Debug/net8.0/MenuSystem.GeneratedMSBuildEditorConfig.editorconfig
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/MenuSystem/obj/Debug/net8.0/MenuSystem.AssemblyInfoInputs.cache
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/MenuSystem/obj/Debug/net8.0/MenuSystem.AssemblyInfo.cs
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/MenuSystem/obj/Debug/net8.0/MenuSystem.csproj.CoreCompileInputs.cache
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/MenuSystem/obj/Debug/net8.0/MenuSystem.sourcelink.json
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/MenuSystem/obj/Debug/net8.0/MenuSystem.dll
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/MenuSystem/obj/Debug/net8.0/refint/MenuSystem.dll
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/MenuSystem/obj/Debug/net8.0/MenuSystem.pdb
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/MenuSystem/obj/Debug/net8.0/ref/MenuSystem.dll

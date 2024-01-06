@@ -1,0 +1,12 @@
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/Domain/bin/Debug/net8.0/Domain.deps.json
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/Domain/bin/Debug/net8.0/Domain.dll
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/Domain/bin/Debug/net8.0/Domain.pdb
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/Domain/obj/Debug/net8.0/Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/Domain/obj/Debug/net8.0/Domain.AssemblyInfoInputs.cache
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/Domain/obj/Debug/net8.0/Domain.AssemblyInfo.cs
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/Domain/obj/Debug/net8.0/Domain.csproj.CoreCompileInputs.cache
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/Domain/obj/Debug/net8.0/Domain.sourcelink.json
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/Domain/obj/Debug/net8.0/Domain.dll
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/Domain/obj/Debug/net8.0/refint/Domain.dll
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/Domain/obj/Debug/net8.0/Domain.pdb
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/Domain/obj/Debug/net8.0/ref/Domain.dll
