@@ -1,0 +1,16 @@
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/DAL/bin/Debug/net8.0/DAL.deps.json
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/DAL/bin/Debug/net8.0/DAL.dll
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/DAL/bin/Debug/net8.0/DAL.pdb
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/DAL/bin/Debug/net8.0/Domain.dll
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/DAL/bin/Debug/net8.0/Domain.pdb
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/DAL/obj/Debug/net8.0/DAL.csproj.AssemblyReference.cache
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/DAL/obj/Debug/net8.0/DAL.GeneratedMSBuildEditorConfig.editorconfig
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/DAL/obj/Debug/net8.0/DAL.AssemblyInfoInputs.cache
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/DAL/obj/Debug/net8.0/DAL.AssemblyInfo.cs
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/DAL/obj/Debug/net8.0/DAL.csproj.CoreCompileInputs.cache
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/DAL/obj/Debug/net8.0/DAL.sourcelink.json
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/DAL/obj/Debug/net8.0/DAL.csproj.CopyComplete
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/DAL/obj/Debug/net8.0/DAL.dll
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/DAL/obj/Debug/net8.0/refint/DAL.dll
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/DAL/obj/Debug/net8.0/DAL.pdb
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/DAL/obj/Debug/net8.0/ref/DAL.dll
