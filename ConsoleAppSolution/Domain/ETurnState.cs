@@ -8,5 +8,6 @@ public enum ETurnState
     RevealLastPlayerCards,
     ChooseColor,
     PlayCardAfterPickingUp,
-    Skip
+    Skip,
+    ScoreBoard
 }

@@ -24,7 +24,11 @@ public class GameState
 
     public int CardsToPickUp { get; set; } = 0;
 
+    public bool DoubleTurn { get; set; } = false;
+
     public bool IsReverseEffectActive { get; set; } = false;
+
+    public Player? Winner { get; set; } = default;
 
 
     public GameCard LastCardPlayed
@@ -50,7 +54,8 @@ public class GameState
             TurnState = this.TurnState,
             CardsToPickUp = this.CardsToPickUp,
             IsReverseEffectActive = this.IsReverseEffectActive,
-            LastCardPlayed = this.LastCardPlayed
+            LastCardPlayed = this.LastCardPlayed,
+            Winner = this.Winner
         };
 
         return clonedState;

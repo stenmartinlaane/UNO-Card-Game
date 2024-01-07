@@ -4,9 +4,11 @@ public sealed class GameOptions
 {
     private static GameOptions? _playerEditedGAmeOptions;
 
-    public int StartingHandSize { get; set; } = 6;
+    public int StartingHandSize { get; set; } = 7;
 
     public bool MultibleCardsPlayedPerTurn { get; set; } = false;
+
+    public int ScoreToWin { get; set; } = 500;
     
     public GameOptions() { }
     
@@ -17,7 +19,8 @@ public sealed class GameOptions
         return new GameOptions
         {
             StartingHandSize = this.StartingHandSize,
-            MultibleCardsPlayedPerTurn = this.MultibleCardsPlayedPerTurn
+            MultibleCardsPlayedPerTurn = this.MultibleCardsPlayedPerTurn,
+            ScoreToWin = this.ScoreToWin
         };
     }
 }

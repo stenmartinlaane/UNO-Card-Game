@@ -1,6 +1,7 @@
 using System.Data;
 using System.Runtime.InteropServices.JavaScript;
 using Domain;
+using GameEngine;
 
 namespace ConsoleUI;
 
@@ -21,17 +22,14 @@ public class ConsoleVisualizations
 
     public static void DrawPlayerHand(Player player)
     {
-        /*
-        Console.WriteLine("Your current hand is: " +
-                          string.Join(
-                              "  ",
-                              player.PlayerHand.Select((c, i) => (i+1) + ": " + c)
-                          )
-        );
-        */
-
         Console.Write("Your current hand is: ");
-        for (int i = 1; i < player.PlayerHand.Count; i++)
+        VisualizeHand(player);
+        Console.WriteLine();
+    }
+
+    private static void VisualizeHand(Player player)
+    {
+        for (int i = 1; i < player.PlayerHand.Count + 1; i++)
         {
             Console.ForegroundColor = ConsoleColor.Black;
             Console.Write(i.ToString() + ":");
@@ -40,23 +38,31 @@ public class ConsoleVisualizations
         }
     }
 
-    public static void AskPlayerMoveMessage(GameState state)
+    public static void AskPlayerMoveMessage(UnoEngine engine)
     {
         String message = "";
-        switch (state.TurnState)
+        switch (engine.State.TurnState)
         {
             case ETurnState.PlayCard:
             {
-                if (state.GameOptions.MultibleCardsPlayedPerTurn == false)
+                if (engine.State.GameOptions.MultibleCardsPlayedPerTurn == false)
                 {
-                    message =  $"Choose card to play 1 - {state.Players[state.ActivePlayerNr].PlayerHand.Count}, p to pick up card(s): ";
+                    message =  $"Choose card to play 1 - {engine.State.Players[engine.State.ActivePlayerNr].PlayerHand.Count}, p to pick up card(s): ";
                 }
 
                 break;
             }
             case ETurnState.PlayCardAfterPickingUp:
             {
-                message = $"You drew card {state.currentPlayerHand()[^1]}. Do you want to play the card (y/n)";
+                GameCard cardDrawn = engine.State.currentPlayerHand()[^1];
+                if (engine.ValidateCardPlayed(engine.State.currentPlayerHand()[^1]))
+                {
+                    message = $"You drew card {cardDrawn}. Do you want to play the card (y - yes / n -no)[no]: ";
+                }
+                else
+                {
+                    message = $"You drew card {cardDrawn}.";
+                }
                 break;
             }
             case ETurnState.ChooseColor:
@@ -76,7 +82,9 @@ public class ConsoleVisualizations
             }
             case ETurnState.RevealLastPlayerCards:
             {
-                DrawPlayerHand(state.GetLastPlayer());
+                Console.Write("The player who played plus four has had: ");
+                VisualizeHand(engine.State.GetLastPlayer());
+                Console.WriteLine();
                 break;
             }
             case ETurnState.Skip:
@@ -90,5 +98,20 @@ public class ConsoleVisualizations
         {
             Console.Write(message);
         }
+    }
+
+    public static void DrawScoreBoard(GameState state)
+    {
+        Console.WriteLine($"{state.Winner} won the uno match!");
+        
+        Console.WriteLine("SCOREBOARD");
+        Console.WriteLine($"Play is until {state.GameOptions.ScoreToWin} points.");
+        Console.WriteLine("Current standings:");
+        foreach (Player player in state.Players)
+        {
+            Console.WriteLine($"{player.NickName} - {player.Points}");
+        }
+
+        Console.ReadLine();
     }
 }

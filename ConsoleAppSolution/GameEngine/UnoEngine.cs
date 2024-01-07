@@ -21,18 +21,44 @@ public class UnoEngine
         _state = state;
     }
     
-    public UnoEngine(GameOptions gameOptions)
+    public UnoEngine(GameOptions gameOptions, List<Player> players)
     {
-        InitializeGameState(gameOptions);
+        StartNewGame(gameOptions, players);
     }
     
-    private void InitializeGameState(GameOptions gameOptions)
+    public void StartNewGame(GameOptions gameOptions, List<Player> players)
     {
-        _state = new GameState(GenerateDeckOfCards(), GetPlayers(), gameOptions, 0);
+        _state = new GameState(GenerateDeckOfCards(), players, gameOptions, 0);
         ShuffleDeckOfCards();
         DealCards();
         _state.DeckOfCardsGraveyard.Add(TakeCardFromDeck());
         _state.LastCardPlayed = _state.DeckOfCardsGraveyard[^1];
+        RandomizeStartingPlayer();
+        TriggerFirstCardEffect();
+    }
+
+    private void TriggerFirstCardEffect()
+    {
+        switch (_state.LastCardPlayed.CardText)
+        {
+            case ECardText.Reverse:
+                _state.IsReverseEffectActive = !_state.IsReverseEffectActive;
+                break;
+            case ECardText.PlusTwo:
+                _state.CardsToPickUp += 2;
+                _state.TurnState = ETurnState.PlusTwo;
+                break;
+            case ECardText.ChooseColor:
+                _state.TurnState = ETurnState.ChooseColor;
+                _state.DoubleTurn = true;
+                break;
+        }
+    }
+
+    private void RandomizeStartingPlayer()
+    {
+        int playerNumber = Rnd.Next(_state.Players.Count() - 1);
+        _state.ActivePlayerNr = playerNumber;
     }
 
     private List<GameCard?> GenerateDeckOfCards()
@@ -68,15 +94,24 @@ public class UnoEngine
 
     private void ShuffleDeckOfCards()
     {
-        List<GameCard?> shuffledDeck = new();
-        while (_state.DeckOfGameCardsInPlay.Count > 0)
+        while (true)
         {
-            int randomPositionInDeck = Rnd.Next(_state.DeckOfGameCardsInPlay.Count());
-            shuffledDeck.Add(_state.DeckOfGameCardsInPlay[randomPositionInDeck]);
-            _state.DeckOfGameCardsInPlay.RemoveAt(randomPositionInDeck);
-        }
+            List<GameCard?> shuffledDeck = new();
+            while (_state.DeckOfGameCardsInPlay.Count > 0)
+            {
+                int randomPositionInDeck = Rnd.Next(_state.DeckOfGameCardsInPlay.Count());
+                shuffledDeck.Add(_state.DeckOfGameCardsInPlay[randomPositionInDeck]);
+                _state.DeckOfGameCardsInPlay.RemoveAt(randomPositionInDeck);
+            }
 
-        _state.DeckOfGameCardsInPlay = shuffledDeck;
+            _state.DeckOfGameCardsInPlay = shuffledDeck;
+            if (shuffledDeck[^1].CardText == ECardText.ChooseColorPlusFour)
+            {
+                continue;
+            }
+
+            break;
+        }
     }
 
     private List<Player> GetPlayers()
@@ -101,7 +136,7 @@ public class UnoEngine
         foreach (var player in _state.Players)
         {
             //deal 7 cards for each player
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < _state.GameOptions.StartingHandSize; i++)
             {
                 DrawCardForPlayer(player);
             }
@@ -171,6 +206,7 @@ public class UnoEngine
                 else
                 {
                     MakePlayerMove(playerChoice);
+                    CheckIfWin();
                 }
                 break;
             }
@@ -180,13 +216,13 @@ public class UnoEngine
                 {
                     MakePlayerMove(_state.currentPlayerHand().Count.ToString());
                 }
-                else if (playerChoice != "n")
+                else if (playerChoice is "" or "n")
+                {
+                    NextPlayerMove();
+                }
+                else
                 {
                     ErrorMessage = "Not a valid choice";
-                }
-                if (ErrorMessage == null)
-                {
-                    _state.TurnState = ETurnState.PlayCard;
                 }
                 break;
             }
@@ -231,6 +267,53 @@ public class UnoEngine
         }
     }
 
+    private void CheckIfWin()
+    {
+        if (_state.currentPlayerHand().Count != 0)
+        {
+            return;
+        }
+
+        _state.Winner = _state.CurrentPlayer();
+        if (_state.CardsToPickUp != 0)
+        {
+            NextPlayerMove();
+            PickUpCards();
+        }
+        
+        _state.TurnState = ETurnState.ScoreBoard;
+        _state.Winner.Points += CalculateWinnerPoints();
+    }
+
+    private int CalculateWinnerPoints()
+    {
+        int pointsWon = 0;
+        foreach (Player player in _state.Players)
+        {
+            foreach (GameCard card in player.PlayerHand)
+            {
+                pointsWon += GetCardPoinValue(card);
+            }
+        }
+
+        return pointsWon;
+    }
+
+    private int GetCardPoinValue(GameCard card)
+    {
+        switch (card.CardText)
+        {
+            case ECardText.ChooseColor:
+            case ECardText.ChooseColorPlusFour:
+                return 50;
+            case ECardText.Reverse:
+            case ECardText.Skip:
+            case ECardText.PlusTwo:
+                return 20;
+            default: return (int) card.CardText;
+        }
+    }
+
     private void WildPlusFour(String playerChoice)
     {
         if (playerChoice == "p")
@@ -251,19 +334,7 @@ public class UnoEngine
         return;
     }
     
-
-    public bool IsGameOver()
-    {
-        foreach (Player player in _state.Players)
-        {
-            if (player.PlayerHand.Count == 0)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
+    
 
     public bool IsTurnOver()
     {
@@ -309,8 +380,23 @@ public class UnoEngine
     
     private void DrawCardForPlayer(Player player)
     {
+        if (_state.DeckOfGameCardsInPlay.Count == 0)
+        {
+            ReShuffleDeck();
+        }
         player.PlayerHand.Add(TakeCardFromDeck());
         _state.TurnState = ETurnState.PlayCard;
+    }
+
+    private void ReShuffleDeck()
+    {
+        GameCard lastCard = _state.DeckOfCardsGraveyard[^1];
+        _state.DeckOfCardsGraveyard.Remove(lastCard);
+        
+        _state.DeckOfGameCardsInPlay.AddRange(_state.DeckOfCardsGraveyard);
+        _state.DeckOfCardsGraveyard = [lastCard];
+        
+        ShuffleDeckOfCards();
     }
 
     private void PlayCard(GameCard card)
@@ -348,11 +434,8 @@ public class UnoEngine
             case ECardText.Skip:
                 _state.TurnState = ETurnState.Skip;
                 break;
-
-            // Add more cases as needed for other card types
-
             default:
-                // Handle any unexpected card types or do nothing
+                _state.TurnState = ETurnState.PlayCard;
                 break;
         }
     }
@@ -361,6 +444,10 @@ public class UnoEngine
 
     public void NextPlayerMove()
     {
+        if (_state.DoubleTurn)
+        {
+            return;
+        }
         if (_state.IsReverseEffectActive)
         {
             _state.ActivePlayerNr = (_state.ActivePlayerNr - 1 + _state.Players.Count) % _state.Players.Count;
@@ -382,5 +469,16 @@ public class UnoEngine
         _state.DeckOfGameCardsInPlay.RemoveAt(cardPosition);
         return card;
     }
-    
+
+    public Player? GetGameWinner()
+    {
+        foreach (Player player in _state.Players)
+        {
+            if (player.Points >= _state.GameOptions.ScoreToWin)
+            {
+                return player;
+            }
+        }
+        return null;
+    }
 }

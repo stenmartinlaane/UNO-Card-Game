@@ -18,8 +18,20 @@ public class GameController
 
     public void Run()
     {
+        while (_engine.GetGameWinner() == null)
+        {
+            PlayMatch();
+            _engine.StartNewGame(_engine.State.GameOptions, _engine.State.Players);
+            ConsoleVisualizations.DrawScoreBoard(_engine.State);
+        }
         Console.Clear();
-        while (!_engine.IsGameOver())
+        Console.WriteLine($"{_engine.GetGameWinner()} has won the UNO game with {_engine.GetGameWinner()!.Points} points.");
+    }
+
+    public void PlayMatch()
+    {
+        Console.Clear();
+        while (_engine.State.TurnState != ETurnState.ScoreBoard)
         {
             Console.WriteLine($"Player {_engine.State.ActivePlayerNr + 1} - {_engine.State.CurrentPlayer().NickName}");
             Console.Write("Your turn, make sure you are alone looking at screen! Press enter to continue...");
@@ -32,10 +44,9 @@ public class GameController
                 Console.WriteLine($"Player {_engine.State.ActivePlayerNr + 1} - {_engine.State.CurrentPlayer().NickName}");
                 ConsoleVisualizations.DrawBoard(_engine.State);
                 ConsoleVisualizations.DrawPlayerHand(_engine.State.CurrentPlayer());
-                Console.WriteLine(_engine.State.TurnState);
-                ConsoleVisualizations.AskPlayerMoveMessage(_engine.State);
+                ConsoleVisualizations.AskPlayerMoveMessage(_engine);
                 
-                var playerChoice = Console.ReadLine()?.Trim();
+                var playerChoice = Console.ReadLine().Trim().ToLower();
                 _engine.TryToMakePlayerMove(playerChoice);
                 if (_engine.ErrorMessage != null)
                 {
@@ -51,9 +62,6 @@ public class GameController
                     break;
                 }
             }
-
-
-            
         }
     }
 }

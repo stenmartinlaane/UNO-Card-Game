@@ -2,7 +2,25 @@ namespace Domain;
 
 public class Player
 {
+    public Player(string playerType, string nickName)
+    {
+        if (playerType == "a")
+        {
+            PlayerType = EPlayerType.AI;
+        }
+        else
+        {
+            PlayerType = EPlayerType.Human;
+        }
+
+        NickName = nickName;
+    }
+    
+    public Player() {}
+    
     public string NickName { get; set; } = default!;
+
+    public int Points { set; get; } = 0;
     
     Guid PlayerId { set; get; } = Guid.NewGuid();
     
@@ -17,7 +35,9 @@ public class Player
             NickName = this.NickName,
             PlayerId = this.PlayerId,
             PlayerType = this.PlayerType,
-            PlayerHand = this.PlayerHand?.Select(card => card.Clone()).ToList()
+            PlayerHand = this.PlayerHand?.Select(card => card.Clone()).ToList(),
+            Points = this.Points
+            
         };
     }
 }

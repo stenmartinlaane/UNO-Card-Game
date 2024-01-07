@@ -1,8 +1,6 @@
-﻿using ConsoleUI;
-using DAL;
+﻿using DAL;
 using Domain;
 using GameEngine;
-using MenuSystem;
 
 namespace ConsoleAppProject
 {
@@ -10,30 +8,20 @@ namespace ConsoleAppProject
     {
         static void Main(string[] args)
         {
-            var mainMenu = ProgramMenus.GetMainMenu(ProgramMenus.GetOptionsMenu());
-            mainMenu.Run();
-            
-            
-            
-            GameOptions gameOptions = GameOptions.PlayerEditedGAmeOptions;
-            UnoEngine unoEngine = new UnoEngine(gameOptions);
-
-            
-            //if (unoEngine.ValidateCardPlayed(new GameCard(ECardText.Eight, ECardColor.Wild))) { Console.Write("hdfsa"); }
-            
-            
             IGameRepository gameRepository = new GameRepositoryFileSystem();
-            var gameController = new GameController(
-                unoEngine,
-                gameRepository
+            var mainMenu = ProgramMenus.GetMainMenu(ProgramMenus.GetOptionsMenu(), gameRepository);
+            //mainMenu.Run();
+
+            Guid guid = new Guid();
+            
+            gameRepository.Save(guid,
+                new UnoEngine(
+                    GameOptions.PlayerEditedGAmeOptions,
+                    new List<Player>()).State
                 );
             
-            //gameController.Run();
-
-            // var optionsMenu = ProgramMenus.GetOptionsMenu();
-            // optionsMenu.Run();
-
-
+            Console.WriteLine(gameRepository.LoadGame(guid));
+            
         }
     }
 }

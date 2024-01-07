@@ -74,29 +74,32 @@ public class Menu
 
             if (MenuItems.ContainsKey(userChoice))
             {
-                //SUB MENU
-                if (MenuItems[userChoice].SubMenuToRun != null)
-                {
-                    MenuItems[userChoice].SubMenuToRun!(EMenuLevel.Second);
-                }
-                //METHODS
+                //METHODS, SUBMENU
                 if (MenuItems[userChoice].MethodToRun != null)
                 {
                     userChoice =  MenuItems[userChoice].MethodToRun!();
- 
+                    if (userChoice != "e")
+                    {
+                        continue;
+                    }
+                }
+                if (MenuItems[userChoice].Action != null)
+                {
+                    MenuItems[userChoice].Action!();
+                    Console.Clear();
+                    continue;
                 }
             }
             //NAVIGATION
-           if (userChoice?.ToLower() == "x")
+           if (userChoice == "e")
             {
-                return "x";
+                return "e";
             }
-            if (userChoice?.ToLower() == "b")
+            if (userChoice == "b")
             {
                 return null;
             }
-            
-            else if (!ReservedShortcuts.Contains(userChoice))
+            else if (!ReservedShortcuts.Contains(userChoice) && userChoice is not null)
             {
                 Console.WriteLine("Undefined Shortcut");
             }
