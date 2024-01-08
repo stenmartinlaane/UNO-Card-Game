@@ -57,7 +57,7 @@ public class UnoEngine
 
     private void RandomizeStartingPlayer()
     {
-        int playerNumber = Rnd.Next(_state.Players.Count() - 1);
+        int playerNumber = Rnd.Next(_state.Players.Count());
         _state.ActivePlayerNr = playerNumber;
     }
 

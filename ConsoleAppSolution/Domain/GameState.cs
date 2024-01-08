@@ -55,7 +55,8 @@ public class GameState
             CardsToPickUp = this.CardsToPickUp,
             IsReverseEffectActive = this.IsReverseEffectActive,
             LastCardPlayed = this.LastCardPlayed,
-            Winner = this.Winner
+            Winner = this.Winner,
+            DoubleTurn = this.DoubleTurn
         };
 
         return clonedState;

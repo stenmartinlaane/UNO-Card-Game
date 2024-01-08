@@ -6,7 +6,8 @@ namespace DAL;
 
 public class GameRepositoryFileSystem : IGameRepository
 {
-    private const string SaveLocation = "/~/unogame";
+    private static readonly string SaveLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "UNO_CardGame_stenmartin");
+
 
     private readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions()
     {
@@ -15,42 +16,45 @@ public class GameRepositoryFileSystem : IGameRepository
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
     };
 
-    public void Save(Guid id, GameState state)
+    public void Save(Guid? id, GameState state)
     {
-        var content = JsonSerializer.Serialize(state, _jsonSerializerOptions);
-
-        var fileName = Path.ChangeExtension(id.ToString(), ".json");
+        GameState stateCopy = state.Clone();
+        if (id != null)
+        {
+            stateCopy.Id = (Guid) id;
+        }
+        var jsonContent = JsonSerializer.Serialize(stateCopy, _jsonSerializerOptions);
+        
 
         if (!Path.Exists(SaveLocation))
         {
             Directory.CreateDirectory(SaveLocation);
         }
-
-        File.WriteAllText(Path.Combine(SaveLocation, fileName), content);
+        var fileName = Path.ChangeExtension(stateCopy.Id.ToString(), ".json");
+        using StreamWriter writer = System.IO.File.AppendText(Path.Combine(SaveLocation, fileName));
+        writer.WriteLine(jsonContent);
     }
-
-    public List<(Guid id, DateTime dt)> GetSaveGames()
+    public List<GameState> GetSaveGames()
     {
         var data = Directory.EnumerateFiles(SaveLocation);
-        var res = data
-            .Select(
-                path => (
-                    Guid.Parse(Path.GetFileNameWithoutExtension(path)),
-                    File.GetLastWriteTime(path)
-                )
-            ).ToList();
-        
-        return res;
     }
 
-    public GameState LoadGame(Guid id)
+    public GameState? LoadGame(Guid id)
     {
         var fileName = Path.ChangeExtension(id.ToString(), ".json");
+        var filePath = Path.Combine(SaveLocation, fileName);
+        if (File.Exists(filePath))
+        {
+            using StreamReader reader = new StreamReader(filePath);
+            string jsonContent = reader.ReadToEnd();
 
-        var jsonStr = File.ReadAllText(Path.Combine(SaveLocation, fileName));
-        var res = JsonSerializer.Deserialize<GameState>(jsonStr, _jsonSerializerOptions);
-        if (res == null) throw new SerializationException($"Cannot deserialize {jsonStr}");
+            var result = JsonSerializer.Deserialize<GameState>(jsonContent, _jsonSerializerOptions);
 
-        return res;
+            return result;
+        }
+        else
+        {
+            return null;
+        }
     }
 }

@@ -4,8 +4,8 @@ namespace DAL;
 
 public interface IGameRepository
 {
-    void Save(Guid id, GameState state);
-    List<(Guid id, DateTime dt)> GetSaveGames();
+    void Save(Guid? id, GameState state);
+    List<GameState> GetSaveGames();
 
-    GameState LoadGame(Guid id);
+    GameState? LoadGame(Guid id);
 }

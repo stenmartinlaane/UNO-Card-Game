@@ -12,7 +12,9 @@ namespace ConsoleAppProject
             var mainMenu = ProgramMenus.GetMainMenu(ProgramMenus.GetOptionsMenu(), gameRepository);
             //mainMenu.Run();
 
-            Guid guid = new Guid();
+            Guid guid = Guid.NewGuid();
+            
+            Console.WriteLine(guid.ToString());
             
             gameRepository.Save(guid,
                 new UnoEngine(
@@ -20,7 +22,7 @@ namespace ConsoleAppProject
                     new List<Player>()).State
                 );
             
-            Console.WriteLine(gameRepository.LoadGame(guid));
+            Console.WriteLine(gameRepository.LoadGame(guid).Id);
             
         }
     }
