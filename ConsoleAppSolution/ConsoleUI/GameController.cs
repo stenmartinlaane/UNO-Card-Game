@@ -20,7 +20,11 @@ public class GameController
     {
         while (_engine.GetGameWinner() == null)
         {
-            PlayMatch();
+            String playerChoice = PlayMatch();
+            if (playerChoice == "e")
+            {
+                return;
+            }
             _engine.StartNewGame(_engine.State.GameOptions, _engine.State.Players);
             ConsoleVisualizations.DrawScoreBoard(_engine.State);
         }
@@ -28,15 +32,21 @@ public class GameController
         Console.WriteLine($"{_engine.GetGameWinner()} has won the UNO game with {_engine.GetGameWinner()!.Points} points.");
     }
 
-    public void PlayMatch()
+    public String PlayMatch()
     {
+        _reopsitory.Save(_engine.State.Id, _engine.State);
         Console.Clear();
         while (_engine.State.TurnState != ETurnState.ScoreBoard)
         {
+            String? playerChoice;
             Console.WriteLine($"Player {_engine.State.ActivePlayerNr + 1} - {_engine.State.CurrentPlayer().NickName}");
             Console.Write("Your turn, make sure you are alone looking at screen! Press enter to continue...");
             
-            Console.ReadLine();
+            playerChoice = Console.ReadLine();
+            if (playerChoice == "e")
+            {
+                return playerChoice;
+            }
             Console.Clear();
             
             while (true)
@@ -46,8 +56,14 @@ public class GameController
                 ConsoleVisualizations.DrawPlayerHand(_engine.State.CurrentPlayer());
                 ConsoleVisualizations.AskPlayerMoveMessage(_engine);
                 
-                var playerChoice = Console.ReadLine().Trim().ToLower();
+                playerChoice = Console.ReadLine().Trim().ToLower();
                 _engine.TryToMakePlayerMove(playerChoice);
+                if (playerChoice == "e")
+                {
+                    return playerChoice;
+                }
+
+                playerChoice = "";
                 if (_engine.ErrorMessage != null)
                 {
                     Console.WriteLine(_engine.ErrorMessage);
@@ -58,10 +74,12 @@ public class GameController
                 else if (_engine.IsTurnOver())
                 {
                     _engine.NextPlayerMove();
+                    _reopsitory.Save(_engine.State.Id, _engine.State);
                     Console.Clear();
                     break;
                 }
             }
         }
+        return "";
     }
 }

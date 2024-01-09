@@ -4,13 +4,13 @@ namespace MenuSystem;
 
 public class Menu
 {
-    public string? Title { get; set; }
+    public string Title { get; set; }
     public Dictionary<string, MenuItem> MenuItems { get; set; } = new();
 
     private const string MenuSeparator = "=======================";
     private static readonly HashSet<string> ReservedShortcuts = new() {"x", "b", "r"};
 
-    public Menu(string? title, List<MenuItem> menuItems)
+    public Menu(string title, List<MenuItem> menuItems)
     {
         Title = title;
         foreach (var menuItem in menuItems)
@@ -38,7 +38,9 @@ public class Menu
         {
             Console.Write(menuItem.Key);
             Console.Write(") ");
-            Console.WriteLine(menuItem.Value.MenuLabel);
+            Console.WriteLine(menuItem.Value.MenuLabelFunction != null
+                ? menuItem.Value.MenuLabelFunction()
+                : menuItem.Value.MenuLabel);
         }
 
         if (menuLevel != EMenuLevel.First)
@@ -75,9 +77,9 @@ public class Menu
             if (MenuItems.ContainsKey(userChoice))
             {
                 //METHODS, SUBMENU
-                if (MenuItems[userChoice].MethodToRun != null)
+                if (MenuItems[userChoice].SubMenu != null)
                 {
-                    userChoice =  MenuItems[userChoice].MethodToRun!();
+                    userChoice =  MenuItems[userChoice].SubMenu!();
                     if (userChoice != "e")
                     {
                         continue;

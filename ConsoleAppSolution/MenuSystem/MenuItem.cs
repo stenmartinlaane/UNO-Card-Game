@@ -1,12 +1,15 @@
+using DAL;
+
 namespace MenuSystem;
 
 public class MenuItem
 {
     public string MenuLabel { get; set; }
-    public Func<string>? MenuLabelFunction { get; set; }
-    public string Shortcut { get; set; } = default!;
-    public Func<string?>? MethodToRun { get; set; } = null;
-    //public Func<EMenuLevel, string>? SubMenuToRun { get; set; }
 
-    public Action? Action;
+    public Func<string>? MenuLabelFunction { get; set; } = null;
+    public string Shortcut { get; set; } = default!;
+    public Func<string?>? SubMenu { get; set; } = null;
+    
+
+    public Action? Action { get; set; } = null;
 }

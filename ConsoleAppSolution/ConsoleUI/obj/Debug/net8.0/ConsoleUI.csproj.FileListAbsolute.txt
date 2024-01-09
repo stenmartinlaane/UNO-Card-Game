@@ -18,3 +18,5 @@
 /Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleUI/obj/Debug/net8.0/refint/ConsoleUI.dll
 /Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleUI/obj/Debug/net8.0/ConsoleUI.pdb
 /Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleUI/obj/Debug/net8.0/ref/ConsoleUI.dll
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleUI/bin/Debug/net8.0/Config.dll
+/Users/stenmartinlaane/Desktop/icd0008-2022f/ConsoleAppSolution/ConsoleUI/bin/Debug/net8.0/Config.pdb
