@@ -37,7 +37,6 @@ public class PlayGame(IGameRepository gameRepository, DAL.AppDbContext context) 
         {
             return NotFound();
         }
-        ErrorMessage = ErrorMessage;
         Game = game;
         GameState = JsonSerializer.Deserialize<GameState>(game.State, JsonConfig.JsonSerializerOptions)!;
         AdminId = GameState.Players.First().PlayerId;

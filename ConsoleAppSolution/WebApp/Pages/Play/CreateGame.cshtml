@@ -27,6 +27,11 @@
 <p></p>
 @{
     int i = 1;
+    @foreach (var player in Model.GameState.Players)
+    {
+        @player.NickName
+        <button>remove</button>
+    }
     string players = string.Join(", ", Model.GameState.Players.Where(p => p.PlayerType == EPlayerType.Human).Select(p => p.NickName));
     string computers = string.Join(", ", Model.GameState.Players.Where(p => p.PlayerType == EPlayerType.AI).Select(p => p.NickName));
     @("Players in lobby: ")

@@ -26,11 +26,12 @@ public class GameController
             {
                 return;
             }
-            _engine.StartNewGame(_engine.State.GameOptions, _engine.State.Players);
             ConsoleVisualizations.DrawScoreBoard(_engine.State);
+            _engine.StartNewGame(_engine.State.GameOptions, _engine.State.Players);
         }
         Console.Clear();
-        Console.WriteLine($"{_engine.GetGameWinner()} has won the UNO game with {_engine.GetGameWinner()!.Points} points.");
+        Console.WriteLine($"{_engine.GetGameWinner().NickName} has won the UNO game with {_engine.GetGameWinner()!.Points} points.");
+        Console.Read();
     }
 
     public String PlayMatch()

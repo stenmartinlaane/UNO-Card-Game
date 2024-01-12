@@ -86,6 +86,7 @@
             <input asp-for="GameId" type="hidden"/>
             <input asp-for="PlayerId" type="hidden"/>
             <input type="hidden" name="playerAction" value="playMove"/>
+            <input type="hidden" name="playerChoice" value="y"/>
             <button type="submit" class="btn btn-primary">Play Drawn card @Model.User.PlayerHand[^1]</button>
         </form>
         <br/>
@@ -119,6 +120,18 @@
             <input type="hidden" name="playerAction" value="playMove"/>
             <input type="hidden" name="playerChoice" value="c"/>
             <button type="submit" class="btn btn-primary">Call Bluff</button>
+        </form>
+    }
+    @if (Model.GameState.TurnState == ETurnState.PlayCardAfterPickingUp)
+    {
+        <form method="post">
+            <input asp-for="Game" type="hidden"/>
+            <input asp-for="Game.State" type="hidden"/>
+            <input asp-for="GameId" type="hidden"/>
+            <input asp-for="PlayerId" type="hidden"/>
+            <input type="hidden" name="playerAction" value="playMove"/>
+            <input type="hidden" name="playerChoice" value="n"/>
+            <button type="submit" class="btn btn-primary">Keep the card</button>
         </form>
     }
 }

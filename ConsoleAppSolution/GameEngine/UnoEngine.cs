@@ -574,6 +574,7 @@ public class UnoEngine
             case ETurnState.PlayCardAfterPickingUp:
             {
                 playerActions.Add(EPlayerAction.PlayDrawnCard);
+                playerActions.Add(EPlayerAction.DoNothing);
                 break;
             }
             case ETurnState.ChooseColor:

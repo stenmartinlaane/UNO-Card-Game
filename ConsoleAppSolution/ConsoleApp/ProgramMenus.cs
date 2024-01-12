@@ -123,15 +123,15 @@ public static class ProgramMenus
                     return "Input must be numeric";
                 }
 
-                if (!(2 <= result && result <= 20))
+                if (!(1 <= result && result <= 2000))
                 {
-                    return "Input must be between numbers 2 and 20.";
+                    return "Input must be between numbers 1 and 2000.";
                 }
 
                 return null;
             },
-            () => Console.WriteLine("How many cards should each player have it starting hand? (2 - 20)[7]: "),
-            "2",
+            () => Console.WriteLine("How many points to win the game? (1 - 2000)[500]: "),
+            "500",
             true
         );
         GameOptions.PlayerEditedGAmeOptions.ScoreToWin = int.Parse(playerChoice);
