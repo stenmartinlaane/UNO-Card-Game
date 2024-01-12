@@ -22,8 +22,10 @@ public class GameRepositoryFileSystem : IGameRepository
             Directory.CreateDirectory(SaveLocation);
         }
         var fileName = Path.ChangeExtension(state.Id.ToString(), ".json");
-        using StreamWriter writer = System.IO.File.AppendText(Path.Combine(SaveLocation, fileName));
-        writer.WriteLine(jsonContent);
+        var filePath = Path.Combine(SaveLocation, fileName);
+        File.WriteAllText(filePath, jsonContent);
+        //using StreamWriter writer = System.IO.File.AppendText(Path.Combine(SaveLocation, fileName));
+        //writer.WriteLine(jsonContent);
     }
     public List<(GameState gameState, DateTime dt)> GetSaveGamesData()
     {

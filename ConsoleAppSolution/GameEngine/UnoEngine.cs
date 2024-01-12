@@ -20,6 +20,11 @@ public class UnoEngine
     {
         _state = state;
     }
+
+    public UnoEngine()
+    {
+        _state = new GameState();
+    }
     
     public UnoEngine(GameOptions gameOptions, List<Player> players)
     {
@@ -29,6 +34,7 @@ public class UnoEngine
     public void StartNewGame(GameOptions gameOptions, List<Player> players)
     {
         _state = new GameState(GenerateDeckOfCards(), players, gameOptions, 0);
+        RandomizeStartingPlayer();
         foreach (var player in _state.Players)
         {
             player.PlayerHand = new List<GameCard>();
@@ -41,7 +47,6 @@ public class UnoEngine
         }
         _state.DeckOfCardsGraveyard.Add(TakeCardFromDeck());
         _state.LastCardPlayed = _state.DeckOfCardsGraveyard[^1];
-        RandomizeStartingPlayer();
         TriggerFirstCardEffect();
     }
 
@@ -578,6 +583,7 @@ public class UnoEngine
             }
             case ETurnState.PlusTwo:
             {
+                playerActions.Add(EPlayerAction.PickUpCards);
                 break;
             }
             case ETurnState.WildPlusFour:
@@ -588,10 +594,12 @@ public class UnoEngine
             }
             case ETurnState.RevealLastPlayerCards:
             {
+                playerActions.Add(EPlayerAction.DoNothing);
                 break;
             }
             case ETurnState.Skip:
             {
+                playerActions.Add(EPlayerAction.DoNothing);
                 break;
             }
         }

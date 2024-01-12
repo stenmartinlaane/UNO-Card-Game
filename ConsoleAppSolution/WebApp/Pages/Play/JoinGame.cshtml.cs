@@ -1,9 +1,7 @@
 using DAL;
 using Domain;
-using Domain.Database;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 
 namespace WebApp.Pages.Play;
 
@@ -28,9 +26,7 @@ public class JoinGame : PageModel
     
     public IActionResult OnPost()
     {
-        Console.WriteLine(GameId);
         GameState? state = _gameRepository.LoadGame(Guid.Parse(GameId));
-        Console.WriteLine(GameId);
         if (!ModelState.IsValid || state == null || state.Players.Count() > 6)
         {
             return Page();

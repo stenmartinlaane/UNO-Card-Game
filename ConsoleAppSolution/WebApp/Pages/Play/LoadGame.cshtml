@@ -1,0 +1,45 @@
+@page
+@using Domain
+@model WebApp.Pages.Play.LoadGame
+
+@{
+    ViewData["Title"] = "Load Game";
+}
+
+<h2>Load Game</h2>
+
+<h5>Reload page in <span id="reload-label">5</span></h5>
+
+@foreach (var state in Model.GameStates.Where(data => !data.SearchingForPlayers))
+{
+    <div>
+        Game - @state.Id
+        @foreach (var player in state.Players)
+        {
+            if (player.PlayerType == EPlayerType.Human)
+            {
+                <form method="post">
+                    <button>@player.NickName</button>
+                    <input type="hidden"  name="playerId" value="@player.PlayerId"/>
+                    <input type="hidden"  name="gameId" value="@state.Id"/>
+                </form>
+            }
+        }
+    </div>
+}
+
+@section Scripts
+{
+    <script>
+        let timerValue = 5;
+        let timerLabel = document.querySelector("#reload-label");
+        
+        setInterval(() => {
+            timerValue--;
+            timerLabel.innerHTML = timerValue.toString();
+            if (timerValue<=0) {
+                window.location.reload();
+            }
+        }, 1000);
+    </script>
+}

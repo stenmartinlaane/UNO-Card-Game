@@ -27,6 +27,10 @@ public class UnoAI
         {
             return "r";
         }
+        if (engine.GetValidActions().Contains(EPlayerAction.DoNothing))
+        {
+            return "";
+        }
         return "p";
     }
 }

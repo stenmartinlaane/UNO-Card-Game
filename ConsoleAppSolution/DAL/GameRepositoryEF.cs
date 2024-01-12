@@ -26,6 +26,7 @@ public class GameRepositoryEF(AppDbContext ctx) : IGameRepository
         {
             game.UpdatedAtDt = DateTime.Now;
             game.State = JsonSerializer.Serialize(state, _jsonSerializerOptions);
+            ctx.Update(game);
         }
         ctx.SaveChanges();
     }

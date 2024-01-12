@@ -1,0 +1,140 @@
+@page
+@using Domain
+@model WebApp.Pages.Play.PlayGame
+
+@{
+    ViewData["Title"] = "Play Game";
+}
+
+<h2>UNO</h2>
+<h5>Reload page in <span id="reload-label">5</span></h5>
+<p>Player - @Model.User.NickName</p>
+@if (Model.ErrorMessage != null)
+{
+    @Html.Raw(Model.ErrorMessage)
+}
+@{
+    string players = string.Join(", ", Model.GameState.Players.Where(p => p.PlayerType == EPlayerType.Human).Select(p => p.NickName));
+    string computers = string.Join(", ", Model.GameState.Players.Where(p => p.PlayerType == EPlayerType.AI).Select(p => p.NickName));
+    @("Players in lobby: ")
+    @players
+    @Html.Raw("<br>")
+    @("Bots in lobby: ")
+    @computers
+}
+<br/>
+<br/>
+<form method="post">
+    <div>
+        Last Card Played: @Model.GameState.LastCardPlayed
+        <br/>
+        Player Hand:
+        @{
+            int i = 0;
+            @foreach (GameCard card in Model.User.PlayerHand)
+            {
+                i++;
+                if (card == Model.User.PlayerHand[0])
+                {
+                    <label asp-for="@card">
+                        <input type="radio" id="option1" name="playerChoice" value="1" checked="checked">@card
+                    </label>
+                }
+                else
+                {
+                    <label asp-for="@card">
+                        <input type="radio" id="option1" name="playerChoice" value="@i">@card
+                    </label>
+                }
+            }
+        }
+        <input asp-for="Game" type="hidden"/>
+        <input asp-for="Game.State" type="hidden"/>
+        <input asp-for="GameId" type="hidden"/>
+        <input asp-for="PlayerId" type="hidden"/>
+        <span asp-validation-for="User.NickName" class="text-danger"></span>
+        <input type="hidden" name="playerAction" value="playMove"/>
+    </div>
+    <p></p>
+    @if (Model.IsMyTurn && Model.ValidActions.Contains(EPlayerAction.PlayCard))
+    {
+        <button type="submit" name="Play card." class="btn btn-primary">Play card.</button>
+    }
+</form>
+<p></p>
+@if (Model.IsMyTurn)
+{
+    @if (Model.ValidActions.Contains(EPlayerAction.PickUpCards))
+    {
+        <form method="post">
+            <input asp-for="Game" type="hidden"/>
+            <input asp-for="Game.State" type="hidden"/>
+            <input asp-for="GameId" type="hidden"/>
+            <input asp-for="PlayerId" type="hidden"/>
+            <input type="hidden" name="playerAction" value="playMove"/>
+            <input type="hidden" name="playerChoice" value="p"/>
+            <button type="submit" name="playerChoice" value="p" class="btn btn-primary">Pick up card(s)</button>
+        </form>
+        <br/>
+    }
+
+    @if (Model.ValidActions.Contains(EPlayerAction.PlayDrawnCard))
+    {
+        <form method="post">
+            <input asp-for="Game" type="hidden"/>
+            <input asp-for="Game.State" type="hidden"/>
+            <input asp-for="GameId" type="hidden"/>
+            <input asp-for="PlayerId" type="hidden"/>
+            <input type="hidden" name="playerAction" value="playMove"/>
+            <button type="submit" class="btn btn-primary">Play Drawn card @Model.User.PlayerHand[^1]</button>
+        </form>
+        <br/>
+    }
+
+
+    @if (Model.ValidActions.Contains(EPlayerAction.ChooseColor))
+    {
+        <form method="post">
+            <input type="radio" id="o1" name="playerChoice" value="y">yellow
+            <input type="radio" id="o2" name="playerChoice" value="b">blue
+            <input type="radio" id="o3" name="playerChoice" value="g">green
+            <input type="radio" id="o4" name="playerChoice" value="r" checked="checked">red
+            <input asp-for="Game" type="hidden"/>
+            <input asp-for="Game.State" type="hidden"/>
+            <input asp-for="GameId" type="hidden"/>
+            <input asp-for="PlayerId" type="hidden"/>
+            <input type="hidden" name="playerAction" value="playMove"/>
+            <button type="submit" class="btn btn-primary">Choose color</button>
+        </form>
+        <br/>
+    }
+
+    @if (Model.ValidActions.Contains(EPlayerAction.CallBluff))
+    {
+        <form method="post">
+            <input asp-for="Game" type="hidden"/>
+            <input asp-for="Game.State" type="hidden"/>
+            <input asp-for="GameId" type="hidden"/>
+            <input asp-for="PlayerId" type="hidden"/>
+            <input type="hidden" name="playerAction" value="playMove"/>
+            <input type="hidden" name="playerChoice" value="c"/>
+            <button type="submit" class="btn btn-primary">Call Bluff</button>
+        </form>
+    }
+}
+
+@section Scripts
+{
+    <script>
+        let timerValue = 5;
+        let timerLabel = document.querySelector("#reload-label");
+        
+        setInterval(() => {
+            timerValue--;
+            timerLabel.innerHTML = timerValue.toString();
+            if (timerValue<=0) {
+                window.location.reload();
+            }
+        }, 1000);
+    </script>
+}

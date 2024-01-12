@@ -36,16 +36,11 @@ public class Index : PageModel
                 Guid PlayerId = state.Players.First().PlayerId;
 
                 return RedirectToPage("/Play/CreateGame", new { PlayerId, GameId });
-                break;
             case "LoadGame":
-                return RedirectToPage("/Play");
-                break;
+                Console.WriteLine("loadgame pickleman");
+                return RedirectToPage("/Play/LoadGame");
             case "JoinGame":
-                Console.WriteLine("JoinGamesdf");
                 return RedirectToPage("/Play/JoinGame");
-                break;
-            default:
-                break;
         }
         return Page();
     }

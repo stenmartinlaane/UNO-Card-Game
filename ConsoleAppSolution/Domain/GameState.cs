@@ -14,23 +14,23 @@ public class GameState
 
     public Guid Id { get; set; } = Guid.NewGuid();
 
-    public List<GameCard?> DeckOfGameCardsInPlay { get; set; }
+    public List<GameCard?> DeckOfGameCardsInPlay { get; set; } = new List<GameCard?>();
     public List<GameCard?> DeckOfCardsGraveyard { get; set; } = new List<GameCard?>();
-    public int ActivePlayerNr { get; set; }
+    public int ActivePlayerNr { get; set; } = 0;
     public List<Player> Players { get; set; } = new List<Player>();
-    public GameOptions GameOptions { get; set; }
+    public GameOptions GameOptions { get; set; } = new GameOptions();
 
     public ETurnState TurnState { get; set; } = ETurnState.PlayCard;
 
-    public int CardsToPickUp { get; set; }
+    public int CardsToPickUp { get; set; } = 0;
 
-    public bool DoubleTurn { get; set; }
+    public bool DoubleTurn { get; set; } = false;
 
-    public bool IsReverseEffectActive { get; set; }
+    public bool IsReverseEffectActive { get; set; } = false;
 
-    public bool SearchingForPlayers { get; set; }
+    public bool SearchingForPlayers { get; set; } = false;
 
-    public Player? Winner { get; set; }
+    public Player? Winner { get; set; } = null;
 
 
     public GameCard LastCardPlayed
@@ -38,13 +38,12 @@ public class GameState
         get => _lastCardPlayed;
         set => _lastCardPlayed = value.Clone();
     }
-    
-    private GameCard _lastCardPlayed;
+
+    private GameCard _lastCardPlayed = new GameCard(ECardText.Eight, ECardColor.Blue);
 
     
     public GameState Clone()
     {
-        // Create a new instance of GameState
         GameState clonedState = new GameState
         {
             Id = this.Id,

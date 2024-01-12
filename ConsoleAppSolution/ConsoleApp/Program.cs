@@ -20,11 +20,8 @@ namespace ConsoleAppProject
             db.Database.Migrate();
             IGameRepository gameRepository = new GameRepositoryEF(db);
             //IGameRepository gameRepository = new GameRepositoryFileSystem();
-
-            var id = gameRepository.LoadGame(Guid.Parse("1e48ff4e-5f44-4e18-92c0-0711e9d52dc0")).Id;
-            Console.WriteLine(id);
             var mainMenu = ProgramMenus.GetMainMenu(gameRepository);
-            //mainMenu.Run();
+            mainMenu.Run();
         }
     }
 }

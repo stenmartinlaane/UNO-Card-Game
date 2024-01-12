@@ -1,69 +1,77 @@
 @page
 @using Mono.TextTemplating
+@using Domain
 @model WebApp.Pages.Play.CreateGame
 
 @{
     ViewData["Title"] = "CreateGame";
 }
 
+<h2>Create Game</h2>
+
 <button onclick="refresh()">Refresh page</button>
+<p></p>
 <form method="post">
     <div>
-        <label asp-for="User.NickName">Nick name</label>
+        <label asp-for="User.NickName">Nickname:</label>
         <input asp-for="User.NickName"/>
         <input asp-for="Game" type="hidden"/>
         <input asp-for="Game.State" type="hidden"/>
         <input asp-for="GameId" type="hidden"/>
         <input asp-for="PlayerId" type="hidden"/>
-        <input asp-for="AdminId" type="hidden"/>
         <span asp-validation-for="User.NickName" class="text-danger"></span>
     </div>
-    <input type="submit" value="Change Nick Name" class="btn btn-primary" />
+    <p></p>
+    <input type="submit" name="submitType" value="ChangeNickname" class="btn btn-primary" />
 </form>
 <p></p>
 @{
-    if (Model.GameState == null)
-    {
-        @("gamestate null");
-    }
-
-    if (Model == null)
-    {
-        var a = "modelnull";
-        @a;
-    }
     int i = 1;
-    string players = "";
-    foreach (var player in Model.GameState.Players)
-    {
-        players += player.NickName;
-        if (i < Model.GameState.Players.Count)
-        {
-            players += ", ";
-        }
-    }
+    string players = string.Join(", ", Model.GameState.Players.Where(p => p.PlayerType == EPlayerType.Human).Select(p => p.NickName));
+    string computers = string.Join(", ", Model.GameState.Players.Where(p => p.PlayerType == EPlayerType.AI).Select(p => p.NickName));
+    @("Players in lobby: ")
     @players
-    //@Model.GameState.Players.Count
+    @Html.Raw("<br>")
+    @("Bots in lobby: ")
+    @computers
 }
 <p></p>
 @if (Model.AdminId == Model.PlayerId)
 {
+    
+    <form method="post">
+        <div>
+            <label asp-for="BotName">AI Name:</label>
+            <input asp-for="BotName"/>
+            <input asp-for="Game" type="hidden"/>
+            <input asp-for="Game.State" type="hidden"/>
+            <input asp-for="GameId" type="hidden"/>
+            <input asp-for="PlayerId" type="hidden"/>
+            <span asp-validation-for="BotName" class="text-danger"></span>
+        </div>
+        <p></p>
+        <button type="submit" name="submitType" value="AddAI">AddAI</button>
+    </form>
+    <br/>
     <form method="post">
         <div asp-validation-summary="ModelOnly"></div>
         <div>
-            <label for="HandSize">Hand Size</label>
-            <input asp-for="GameId" value="7"/>
-            <span asp-validation-for="GameId" class="text-danger"></span>
+            <label asp-for="HandSize">Hand Size</label>
+            <input asp-for="HandSize"/>
+            <span asp-validation-for="HandSize" class="text-danger"></span>
         </div>
         <div>
-            <label asp-for="GameId">Winning score</label>
-            <input asp-for="GameId" value="500"/>
-            <span asp-validation-for="GameId" class="text-danger"></span>
+            <label asp-for="ScoreToWin">Winning score</label>
+            <input asp-for="ScoreToWin"/>
+            <span asp-validation-for="ScoreToWin" class="text-danger"></span>
         </div>
-        <button type="submit" name="CreateNewGame">Start Game</button>
+        <input asp-for="Game" type="hidden"/>
+        <input asp-for="Game.State" type="hidden"/>
+        <input asp-for="GameId" type="hidden"/>
+        <input asp-for="PlayerId" type="hidden"/>
+        <button type="submit" name="submitType" value="CreateNewGame">Start Game</button>
     </form>
 }
-
 
 @section Scripts
 {
