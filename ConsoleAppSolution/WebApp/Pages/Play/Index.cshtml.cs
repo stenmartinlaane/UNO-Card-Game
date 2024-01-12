@@ -51,12 +51,14 @@ public class Index : PageModel
         UnoEngine engine = new UnoEngine(GameOptions.DefaultOptions(), []);
         GameState state = engine.State;
         state.SearchingForPlayers = true;
+        Guid id = Guid.NewGuid();
         state.Players.Add(new Player()
             {
-                PlayerId = Guid.NewGuid(),
+                PlayerId = id,
                 NickName = "h1"
             }
         );
+        state.AdminId = id;
         _gameRepository.Save(state.Id, state);
         return state;
     }

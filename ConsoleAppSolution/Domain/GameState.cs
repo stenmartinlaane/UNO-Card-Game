@@ -58,7 +58,8 @@ public class GameState
             LastCardPlayed = this.LastCardPlayed,
             Winner = this.Winner,
             DoubleTurn = this.DoubleTurn,
-            SearchingForPlayers = this.SearchingForPlayers
+            SearchingForPlayers = this.SearchingForPlayers,
+            AdminId = this.AdminId
         };
 
         return clonedState;
@@ -73,6 +74,8 @@ public class GameState
     {
         return Players[ActivePlayerNr];
     }
+
+    public Guid AdminId { get; set; } = new Guid();
     
     public Player GetLastPlayer()
     {

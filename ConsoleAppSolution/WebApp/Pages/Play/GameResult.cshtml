@@ -1,0 +1,32 @@
+@page
+@using Domain
+@model WebApp.Pages.Play.GameResult
+
+@{
+    ViewData["Title"] = "Results";
+}
+@if (Model.GameState.Winner != null)
+{
+    @($"Winner is {Model.GameState.Winner.NickName} + with {Model.GameState.Winner} points.")
+}
+else
+{
+    <h2>SCORE BOARD</h2>
+
+    @foreach (var player in @Model.GameState.Players)
+    {
+        @(player.NickName + " - " + player.Points)
+    }
+}
+
+@if (Model.PlayerId == Model.GameState.AdminId)
+{
+    <form method="post">
+        <div>
+            <input asp-for="GameId" type="hidden"/>
+            <input asp-for="PlayerId" type="hidden"/>
+        </div>
+        <p></p>
+        <input type="submit" name="submitType" value="Continue" class="btn btn-primary" />
+    </form>
+}

@@ -24,10 +24,7 @@ public class CreateGame : PageModel
     }
     
     [BindProperty(SupportsGet = true)]
-    
     public Guid PlayerId { get; set; }
-
-    //[BindProperty] public String NickName { get; set; } = "enter Nickname";
     
     [BindProperty(SupportsGet = true)]
     public Guid GameId { get; set; }
@@ -36,19 +33,22 @@ public class CreateGame : PageModel
     [BindProperty] public GameState GameState { get; set; }
     [BindProperty] public Guid? AdminId { get; set; } = new Guid();
 
-    [BindProperty] public Game Game { get; set; } = default!;
+    [BindProperty] public Game? Game { get; set; } = default!;
     [BindProperty] public int HandSize { get; set; }
     [BindProperty] public int ScoreToWin { get; set; }
     [BindProperty] public string BotName { get; set; } = "mightyBot";
     
     public async Task<IActionResult> OnGetAsync()
     {
-        Game = await _context.Games.FirstOrDefaultAsync(m => m.Id == GameId);
+        Game = await _context.Games.FirstOrDefaultAsync(g => g.Id == GameId);
+        if (Game == null)
+        {
+            return NotFound();
+        }
         GameState = JsonSerializer.Deserialize<GameState>(Game.State, JsonConfig.JsonSerializerOptions)!;
         HandSize = GameState.GameOptions.StartingHandSize;
         ScoreToWin = GameState.GameOptions.ScoreToWin;
-        AdminId = GameState.Players.First().PlayerId;
-        Console.WriteLine(GameState.Players.First().PlayerId);
+        AdminId = GameState.AdminId;
         User = GameState.Players.First(p => PlayerId == p.PlayerId);
         if (!GameState.SearchingForPlayers)
         {
@@ -57,7 +57,7 @@ public class CreateGame : PageModel
         return Page();
     }
     
-    public async Task<IActionResult> OnPostAsync(string submitType)
+    public async Task<IActionResult> OnPostAsync(string submitType, string pid)
     {
         if (submitType == "ChangeNickname")
         {
@@ -85,6 +85,16 @@ public class CreateGame : PageModel
                 PlayerId = Guid.NewGuid(),
                 PlayerType = EPlayerType.AI
             });
+            _gameRepository.Save(GameState.Id, GameState);
+            return RedirectToPage("/Play/CreateGame", new { PlayerId, GameId });
+        }
+        else if (submitType == "remove")
+        {
+            Console.WriteLine("here");
+            PlayerId = Guid.Parse(pid);
+            GameState = JsonSerializer.Deserialize<GameState>(Game.State, JsonConfig.JsonSerializerOptions)!;
+            Player playerToRemove = GameState.Players.First(p => p.PlayerId == PlayerId);
+            GameState.Players.Remove(playerToRemove);
             _gameRepository.Save(GameState.Id, GameState);
             return RedirectToPage("/Play/CreateGame", new { PlayerId, GameId });
         }

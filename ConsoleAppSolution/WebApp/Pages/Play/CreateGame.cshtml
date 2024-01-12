@@ -29,16 +29,17 @@
     int i = 1;
     @foreach (var player in Model.GameState.Players)
     {
-        @player.NickName
-        <button>remove</button>
+        @(player.NickName + " - " + (player.PlayerType == EPlayerType.Human ? "Human" : "AI"))
+        <form method="post">
+            <input asp-for="Game" type="hidden"/>
+            <input asp-for="Game.State" type="hidden"/>
+            <input asp-for="GameId" type="hidden"/>
+            <input asp-for="PlayerId" type="hidden"/>
+            <input type="hidden" name="submitType" value="remove"/>
+            <button type="submit" name="pid" value="@player.PlayerId">remove</button>
+            <br/>
+        </form>
     }
-    string players = string.Join(", ", Model.GameState.Players.Where(p => p.PlayerType == EPlayerType.Human).Select(p => p.NickName));
-    string computers = string.Join(", ", Model.GameState.Players.Where(p => p.PlayerType == EPlayerType.AI).Select(p => p.NickName));
-    @("Players in lobby: ")
-    @players
-    @Html.Raw("<br>")
-    @("Bots in lobby: ")
-    @computers
 }
 <p></p>
 @if (Model.AdminId == Model.PlayerId)

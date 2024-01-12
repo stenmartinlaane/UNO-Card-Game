@@ -39,8 +39,13 @@ public class PlayGame(IGameRepository gameRepository, DAL.AppDbContext context) 
         }
         Game = game;
         GameState = JsonSerializer.Deserialize<GameState>(game.State, JsonConfig.JsonSerializerOptions)!;
-        AdminId = GameState.Players.First().PlayerId;
+        Console.WriteLine(GameState.TurnState);
         UnoEngine engine = new UnoEngine(GameState);
+        if (GameState.Winner != null)
+        {
+            RedirectToPage("/Play/GameResult", new { PlayerId, GameId });
+        }
+        AdminId = GameState.Players.First().PlayerId;
         MakeAiMoves(engine);
         User = GameState.Players.First(p => PlayerId == p.PlayerId);
         IsMyTurn = engine.State.CurrentPlayer().PlayerId == User.PlayerId;
@@ -51,28 +56,32 @@ public class PlayGame(IGameRepository gameRepository, DAL.AppDbContext context) 
     public IActionResult OnPost(string playerChoice, string playerAction)
     {
         string? ErrorMessage = null;
-        Console.WriteLine("reached post");
         if (playerAction == "playMove")
         {
-            Console.WriteLine("Find Player choice here");
-            Console.WriteLine(playerChoice);
             GameState = JsonSerializer.Deserialize<GameState>(Game.State, JsonConfig.JsonSerializerOptions)!;
             UnoEngine engine = new UnoEngine(GameState);
             engine.MakeMove(playerChoice);
             MakeAiMoves(engine);
             ErrorMessage = engine.ErrorMessages.FirstOrDefault();
             _gameRepository.Save(GameId, engine.State);
+            if (engine.State.Winner != null)
+            {
+                RedirectToPage("/Play/GameResult", new { PlayerId, GameId });
+            }
         }
         return RedirectToPage("/Play/CreateGame", new { PlayerId, GameId, ErrorMessage });
     }
 
     public void MakeAiMoves(UnoEngine engine)
     {
-        Console.WriteLine(engine.State.ActivePlayerNr);
         while (engine.State.CurrentPlayer().PlayerType == EPlayerType.AI)
         {
             engine.MakeMove(UnoAI.MakeMove(engine));
+            _gameRepository.Save(GameId, GameState);
         }
-        
+        if (engine.State.Winner != null)
+        {
+            RedirectToPage("/Play/GameResult", new { PlayerId, GameId });
+        }
     }
 }
