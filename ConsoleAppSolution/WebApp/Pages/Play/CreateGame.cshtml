@@ -15,6 +15,7 @@
         <input asp-for="Game.State" type="hidden"/>
         <input asp-for="GameId" type="hidden"/>
         <input asp-for="PlayerId" type="hidden"/>
+        <input asp-for="AdminId" type="hidden"/>
         <span asp-validation-for="User.NickName" class="text-danger"></span>
     </div>
     <input type="submit" value="Change Nick Name" class="btn btn-primary" />
@@ -45,21 +46,23 @@
     //@Model.GameState.Players.Count
 }
 <p></p>
-<form method="post">
-    <div asp-validation-summary="ModelOnly"></div>
-    <div>
-        <label for="HandSize">Hand Size</label>
-        <input asp-for="GameId" value="7"/>
-        <span asp-validation-for="GameId" class="text-danger"></span>
-    </div>
-    <div>
-        <label asp-for="GameId">Winning score</label>
-        <input asp-for="GameId" value="500"/>
-        <span asp-validation-for="GameId" class="text-danger"></span>
-    </div>
-    <button type="submit" name="CreateNewGame">Start Game</button>
-</form>
-
+@if (Model.AdminId == Model.PlayerId)
+{
+    <form method="post">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div>
+            <label for="HandSize">Hand Size</label>
+            <input asp-for="GameId" value="7"/>
+            <span asp-validation-for="GameId" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="GameId">Winning score</label>
+            <input asp-for="GameId" value="500"/>
+            <span asp-validation-for="GameId" class="text-danger"></span>
+        </div>
+        <button type="submit" name="CreateNewGame">Start Game</button>
+    </form>
+}
 
 
 @section Scripts

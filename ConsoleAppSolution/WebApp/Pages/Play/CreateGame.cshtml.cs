@@ -35,7 +35,7 @@ public class CreateGame : PageModel
 
     [BindProperty] public new Player User { get; set; } = new();
     [BindProperty] public GameState GameState { get; set; }
-
+    [BindProperty] public Guid? AdminId { get; set; } = new Guid();
 
     [BindProperty] public Game Game { get; set; } = default!;
     
@@ -49,6 +49,8 @@ public class CreateGame : PageModel
         }
         Game = game;
         GameState = JsonSerializer.Deserialize<GameState>(game.State, JsonConfig.JsonSerializerOptions)!;
+        AdminId = GameState.Players.First().PlayerId;
+        Console.WriteLine(GameState.Players.First().PlayerId);
         User = GameState.Players.First(p => PlayerId == p.PlayerId);
         return Page();
     }
