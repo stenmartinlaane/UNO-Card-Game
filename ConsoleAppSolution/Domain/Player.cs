@@ -20,13 +20,13 @@ public class Player
     
     public string NickName { get; set; } = default!;
 
-    public int Points { set; get; } = 0;
+    public int Points { set; get; }
     
-    Guid PlayerId { set; get; } = Guid.NewGuid();
+    public Guid PlayerId { set; get; } = Guid.NewGuid();
     
     public EPlayerType PlayerType { get; set; }
 
-    public List<GameCard?> PlayerHand { get; set; } = new List<GameCard?>();
+    public List<GameCard> PlayerHand { get; set; } = new();
     
     public Player Clone()
     {
@@ -35,7 +35,7 @@ public class Player
             NickName = this.NickName,
             PlayerId = this.PlayerId,
             PlayerType = this.PlayerType,
-            PlayerHand = this.PlayerHand?.Select(card => card.Clone()).ToList(),
+            PlayerHand = this.PlayerHand.Select(card => card.Clone()).ToList(),
             Points = this.Points
             
         };

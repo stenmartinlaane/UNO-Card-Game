@@ -1,8 +1,8 @@
 using System.Text.Json;
 
-namespace Helpers;
+namespace Config;
 
-public class JsonConfig
+public static class JsonConfig
 {
     public static readonly JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions()
     {

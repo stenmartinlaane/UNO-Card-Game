@@ -22,13 +22,15 @@ public class GameState
 
     public ETurnState TurnState { get; set; } = ETurnState.PlayCard;
 
-    public int CardsToPickUp { get; set; } = 0;
+    public int CardsToPickUp { get; set; }
 
-    public bool DoubleTurn { get; set; } = false;
+    public bool DoubleTurn { get; set; }
 
-    public bool IsReverseEffectActive { get; set; } = false;
+    public bool IsReverseEffectActive { get; set; }
 
-    public Player? Winner { get; set; } = default;
+    public bool SearchingForPlayers { get; set; }
+
+    public Player? Winner { get; set; }
 
 
     public GameCard LastCardPlayed
@@ -47,22 +49,23 @@ public class GameState
         {
             Id = this.Id,
             ActivePlayerNr = this.ActivePlayerNr,
-            GameOptions = this.GameOptions?.Clone(),
-            DeckOfGameCardsInPlay = this.DeckOfGameCardsInPlay?.Select(card => card?.Clone()).ToList(),
-            DeckOfCardsGraveyard = this.DeckOfCardsGraveyard?.Select(card => card?.Clone()).ToList(),
-            Players = this.Players?.Select(player => player?.Clone()).ToList(),
+            GameOptions = this.GameOptions.Clone(),
+            DeckOfGameCardsInPlay = this.DeckOfGameCardsInPlay.Select(card => card?.Clone()).ToList(),
+            DeckOfCardsGraveyard = this.DeckOfCardsGraveyard.Select(card => card?.Clone()).ToList(),
+            Players = this.Players.Select(player => player.Clone()).ToList(),
             TurnState = this.TurnState,
             CardsToPickUp = this.CardsToPickUp,
             IsReverseEffectActive = this.IsReverseEffectActive,
             LastCardPlayed = this.LastCardPlayed,
             Winner = this.Winner,
-            DoubleTurn = this.DoubleTurn
+            DoubleTurn = this.DoubleTurn,
+            SearchingForPlayers = this.SearchingForPlayers
         };
 
         return clonedState;
     }
     
-    public List<GameCard?> currentPlayerHand()
+    public List<GameCard> CurrentPlayerHand()
     {
         return Players[ActivePlayerNr].PlayerHand;
     }

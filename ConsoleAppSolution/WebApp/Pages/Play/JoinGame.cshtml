@@ -1,0 +1,37 @@
+@page
+@using Microsoft.EntityFrameworkCore
+@model WebApp.Pages.Play.JoinGame
+
+@{
+    ViewData["Title"] = "JoinGame";
+}
+
+<h5>Reload page in <span id="reload-label">5</span></h5>
+
+@foreach (var gameData in Model.GamesData.Where(data => data.gameState.SearchingForPlayers))
+{
+    <div>
+        <form method="post">
+            <input type="hidden" value="@gameData.gameState.Id" name="GameId"/>
+            <button type="submit">Join Game</button>
+        </form>
+        @Html.DisplayFor(modelItem => gameData.dt)
+    </div>
+}
+
+
+@section Scripts
+{
+    <script>
+        let timerValue = 5;
+        let timerLabel = document.querySelector("#reload-label");
+        
+        setInterval(() => {
+            timerValue--;
+            timerLabel.innerHTML = timerValue.toString();
+            if (timerValue<=0) {
+                window.location.reload();
+            }
+        }, 1000);
+    </script>
+}

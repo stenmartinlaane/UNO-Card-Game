@@ -54,8 +54,8 @@ public class ConsoleVisualizations
             }
             case ETurnState.PlayCardAfterPickingUp:
             {
-                GameCard cardDrawn = engine.State.currentPlayerHand()[^1];
-                if (engine.ValidateCardPlayed(engine.State.currentPlayerHand()[^1]))
+                GameCard cardDrawn = engine.State.CurrentPlayerHand()[^1];
+                if (engine.ValidateCardPlayed(engine.State.CurrentPlayerHand()[^1]))
                 {
                     message = $"You drew card {cardDrawn}. Do you want to play the card (y - yes / n -no)[no]: ";
                 }
@@ -84,6 +84,14 @@ public class ConsoleVisualizations
             {
                 Console.Write("The player who played plus four has had: ");
                 VisualizeHand(engine.State.GetLastPlayer());
+                if (engine.WildPlusFourReveal())
+                {
+                    message = "You called the bluff and last player has to draw 4 cards instead.";
+                }
+                else
+                {
+                    message = "Last player was right to play wild plus four and now you have to pick up cards instead";
+                }
                 Console.WriteLine();
                 break;
             }
@@ -113,5 +121,51 @@ public class ConsoleVisualizations
         }
 
         Console.ReadLine();
+    }
+
+    public static String PromptUserForInput(Func<String, String?>? condition, Action? writeQuestion, String returnDefault, bool clearConsole = false)
+    {
+        String? errorMessage = null;
+        while (true)
+        {
+            if (clearConsole)
+            {
+                Console.Clear();
+            }
+            if (writeQuestion != null)
+            {
+                writeQuestion();
+            }
+            if (errorMessage != null)
+            {
+                Console.WriteLine(errorMessage);
+            }
+            string? playerChoice = Console.ReadLine();
+            if (playerChoice == null)
+            {
+                return returnDefault;
+            }
+            playerChoice = playerChoice.Trim().ToLower();
+            if (condition != null)
+            {
+                errorMessage = condition(playerChoice);
+            }
+            if (playerChoice == "")
+            {
+                return returnDefault;
+            }
+            if (errorMessage == null)
+            {
+                return playerChoice;
+            }
+        }
+    }
+
+    public static void DrawInfoForPlayerMove(UnoEngine engine)
+    {
+        Console.WriteLine($"Player {engine.State.ActivePlayerNr + 1} - {engine.State.CurrentPlayer().NickName}");
+        ConsoleVisualizations.DrawBoard(engine.State);
+        ConsoleVisualizations.DrawPlayerHand(engine.State.CurrentPlayer());
+        ConsoleVisualizations.AskPlayerMoveMessage(engine);
     }
 }

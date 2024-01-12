@@ -11,8 +11,8 @@ public class UnoEngine
     }
 
     private GameState _state { get; set; }
-
-    public String? ErrorMessage { get; set; } = null;
+    
+    public List<String> ErrorMessages { get; set; } = new();
     
     private Random Rnd { get; set; } = new();
 
@@ -29,8 +29,16 @@ public class UnoEngine
     public void StartNewGame(GameOptions gameOptions, List<Player> players)
     {
         _state = new GameState(GenerateDeckOfCards(), players, gameOptions, 0);
+        foreach (var player in _state.Players)
+        {
+            player.PlayerHand = new List<GameCard>();
+        }
         ShuffleDeckOfCards();
         DealCards();
+        while (_state.DeckOfGameCardsInPlay[^1]!.CardText == ECardText.ChooseColorPlusFour)
+        {
+            ShuffleDeckOfCards();
+        }
         _state.DeckOfCardsGraveyard.Add(TakeCardFromDeck());
         _state.LastCardPlayed = _state.DeckOfCardsGraveyard[^1];
         RandomizeStartingPlayer();
@@ -109,26 +117,8 @@ public class UnoEngine
             {
                 continue;
             }
-
             break;
         }
-    }
-
-    private List<Player> GetPlayers()
-    {
-        List<Player> players = new();
-        players.Add(new Player()
-        {
-            NickName = "Madis",
-            PlayerType = EPlayerType.Human,
-        });        
-        players.Add(new Player()
-        {
-            NickName = "Adolf",
-            PlayerType = EPlayerType.AI,
-        });
-
-        return players;
     }
 
     private void DealCards()
@@ -157,42 +147,89 @@ public class UnoEngine
         return false;
     }
 
-    private void ValidatePlayerMove(String? playerChoice)
+    private bool Validate(String playerChoice)
     {
-
-        List<int> cardsToBePlayed = playerChoice!.Split(",").Select(s => int.Parse(s.Trim())).ToList();
-        if (_state.GameOptions.MultibleCardsPlayedPerTurn == false)
+        switch (_state.TurnState)
         {
-            if (cardsToBePlayed.Count != 1)
+            case ETurnState.PlayCard:
             {
-                ErrorMessage = "Player can play only one card at a time.";
+                if (playerChoice == "p")
+                {
+                    return true;
+                }
+                if (!int.TryParse(playerChoice, out int result))
+                {
+                    ErrorMessages.Add("Input must be an number or p -to pick a card up.");
+                    return false;
+                }
+                int cardCount = _state.CurrentPlayerHand().Count;
+                if (!(0 < result && result <= cardCount))
+                {
+                    ErrorMessages.Add($"You can only play cards 1 - {cardCount}");
+                    return false;
+                }
+                if (!ValidateCardPlayed(_state.CurrentPlayerHand()[result - 1]!))
+                {
+                    ErrorMessages.Add($"Can not play {_state.CurrentPlayerHand()[result - 1]} on top of {_state.LastCardPlayed}.");
+                    return false;
+                }
+                break;
             }
-
-            
-
-            if (ValidateCardPlayed(_state.currentPlayerHand()[cardsToBePlayed[0] - 1]) == false)
+            case ETurnState.PlayCardAfterPickingUp:
             {
-                ErrorMessage = $"Can not play {_state.currentPlayerHand()[cardsToBePlayed[0] - 1]} on top of {_state.LastCardPlayed}.";
+                if (playerChoice is not "y" and not "n" and not "")
+                {
+                    ErrorMessages.Add("Valid choices are (y - to play picked up card) and (n - to not play it).");
+                    return false;
+                }
+                break;
             }
-
+            case ETurnState.ChooseColor:
+            {
+                if (playerChoice is not "y" and not "g" and not "b" and not "r")
+                {
+                    ErrorMessages.Add("Valid choices are (y - yellow), (g - green), (b - blue), (r - red).");
+                    return false;
+                }
+                break;
+            }
+            case ETurnState.PlusTwo:
+            {
+                break;
+            }
+            case ETurnState.WildPlusFour:
+            {
+                if (playerChoice is not "p" and not "c")
+                {
+                    ErrorMessages.Add("Valid choices are (p - pick up cards) and (c - call bluff).");
+                    return false;
+                }
+                break;
+            }
+            case ETurnState.RevealLastPlayerCards:
+            {
+                break;
+            }
+            case ETurnState.Skip:
+            {
+                break;
+            }
         }
-        else
+
+        return true;
+    }
+
+    public void MakeMove(String playerChoice)
+    {
+        ErrorMessages = new();
+        if (Validate(playerChoice))
         {
-            throw new NotImplementedException();
+            ExecuteMove(playerChoice);
+            NextPlayerMove();
         }
     }
 
-    public void MakePlayerMove(String playerChoice)
-    {
-        List<int> cardsToBePlayed = playerChoice!.Split(",").Select(s => int.Parse(s.Trim())).ToList();
-        ValidatePlayerMove(playerChoice);
-        if (ErrorMessage == null)
-        {
-            PlayCard(_state.currentPlayerHand()[cardsToBePlayed[0] - 1]);
-        }
-    }
-
-    public void TryToMakePlayerMove(String playerChoice)
+    public void ExecuteMove(String playerChoice)
     {
         switch (_state.TurnState)
         {
@@ -201,11 +238,10 @@ public class UnoEngine
                 if (playerChoice == "p")
                 {
                     PickUpCards();
-                    _state.TurnState = ETurnState.PlayCardAfterPickingUp;
                 }
                 else
                 {
-                    MakePlayerMove(playerChoice);
+                    PlayCard(playerChoice);
                     CheckIfWin();
                 }
                 break;
@@ -214,15 +250,11 @@ public class UnoEngine
             {
                 if (playerChoice == "y")
                 {
-                    MakePlayerMove(_state.currentPlayerHand().Count.ToString());
-                }
-                else if (playerChoice is "" or "n")
-                {
-                    NextPlayerMove();
+                    PlayCard(_state.CurrentPlayerHand()[^1]!);
                 }
                 else
                 {
-                    ErrorMessage = "Not a valid choice";
+                    _state.TurnState = ETurnState.PlayCard;
                 }
                 break;
             }
@@ -243,7 +275,8 @@ public class UnoEngine
             }
             case ETurnState.RevealLastPlayerCards:
             {
-                WildPlusFourReveal();
+                WildPlusFourAction();
+                _state.TurnState = ETurnState.RevealLastPlayerCards;
                 break;
             }
             case ETurnState.Skip:
@@ -259,17 +292,25 @@ public class UnoEngine
         if (_state.CardsToPickUp == 0)
         {
             DrawCardForPlayer(_state.CurrentPlayer());
+            if (ValidateCardPlayed(_state.CurrentPlayerHand()[^1]!))
+            {
+                _state.TurnState = ETurnState.PlayCardAfterPickingUp;
+                _state.DoubleTurn = true;
+            }
         }
-        for (int i = 0; i < _state.CardsToPickUp; i++)
+        else
         {
-            DrawCardForPlayer(_state.CurrentPlayer());
+            for (int i = 0; i < _state.CardsToPickUp; i++)
+            {
+                DrawCardForPlayer(_state.CurrentPlayer());
+            }
             _state.CardsToPickUp = 0;
         }
     }
 
     private void CheckIfWin()
     {
-        if (_state.currentPlayerHand().Count != 0)
+        if (_state.CurrentPlayerHand().Count != 0)
         {
             return;
         }
@@ -292,14 +333,14 @@ public class UnoEngine
         {
             foreach (GameCard card in player.PlayerHand)
             {
-                pointsWon += GetCardPoinValue(card);
+                pointsWon += GetCardPointValue(card);
             }
         }
 
         return pointsWon;
     }
 
-    private int GetCardPoinValue(GameCard card)
+    private int GetCardPointValue(GameCard card)
     {
         switch (card.CardText)
         {
@@ -321,17 +362,41 @@ public class UnoEngine
             PickUpCards();
         } else if (playerChoice == "c")
         {
+            _state.DoubleTurn = true;
             _state.TurnState = ETurnState.RevealLastPlayerCards;
-        }else 
+        }
+    }
+
+    private void WildPlusFourAction()
+    {
+        if (WildPlusFourReveal())
         {
-            ErrorMessage = "Not a valid option choose (p - to pick) up or (c - to call bluff)";
+            for (int i = 0; i < 4; i++)
+            {
+                DrawCardForPlayer(_state.GetLastPlayer());
+                
+            }
+        }
+        else
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                DrawCardForPlayer(_state.CurrentPlayer());
+            }
         }
     }
     
-    private void WildPlusFourReveal()
+    public bool WildPlusFourReveal()
     {
-        // TODO: Check if should draw 6 or other player draws cards
-        return;
+        Player playerWhoPlayedPlusFour = _state.GetLastPlayer();
+        foreach (var card in playerWhoPlayedPlusFour.PlayerHand)
+        {
+            if (ValidateCardPlayed(card))
+            {
+                return true;
+            }
+        }
+        return false;
     }
     
     
@@ -358,23 +423,15 @@ public class UnoEngine
         {
             card.CardColor = ECardColor.Yellow;
         }
+        _state.LastCardPlayed = card;
+        
+        if (_state.LastCardPlayed.CardText == ECardText.ChooseColorPlusFour)
+        {
+            _state.TurnState = ETurnState.WildPlusFour;
+        }
         else
         {
-            ErrorMessage = "Not a valid color.";
-        }
-
-        if (ErrorMessage == null)
-        {
-            NextPlayerMove();
-            _state.LastCardPlayed = card;
-            if (_state.LastCardPlayed.CardText == ECardText.ChooseColorPlusFour)
-            {
-                _state.TurnState = ETurnState.WildPlusFour;
-            }
-            else
-            {
-                _state.TurnState = ETurnState.PlayCard;
-            }
+            _state.TurnState = ETurnState.PlayCard;
         }
     }
     
@@ -399,15 +456,21 @@ public class UnoEngine
         ShuffleDeckOfCards();
     }
 
+    private void PlayCard(String playerChoice)
+    {
+        PlayCard(_state.CurrentPlayerHand()[int.Parse(playerChoice) - 1]!);
+    }
+
     private void PlayCard(GameCard card)
     {
-        _state.currentPlayerHand().Remove(card);
+        _state.CurrentPlayerHand().Remove(card);
         _state.DeckOfCardsGraveyard.Add(card);
         _state.LastCardPlayed = card;
 
         switch (card.CardText)
         {
             case ECardText.ChooseColor:
+                _state.DoubleTurn = true;
                 _state.TurnState = ETurnState.ChooseColor;
                 break;
 
@@ -417,6 +480,7 @@ public class UnoEngine
                 break;
 
             case ECardText.ChooseColorPlusFour:
+                _state.DoubleTurn = true;
                 _state.CardsToPickUp += 4;
                 _state.TurnState = ETurnState.ChooseColor;
                 break;
@@ -424,6 +488,7 @@ public class UnoEngine
             case ECardText.Reverse:
                 if (_state.Players.Count == 2)
                 {
+                    _state.TurnState = ETurnState.Skip;
                 }
                 else
                 {
@@ -446,6 +511,7 @@ public class UnoEngine
     {
         if (_state.DoubleTurn)
         {
+            _state.DoubleTurn = false;
             return;
         }
         if (_state.IsReverseEffectActive)
@@ -480,5 +546,56 @@ public class UnoEngine
             }
         }
         return null;
+    }
+    
+    public List<EPlayerAction> GetValidActions()
+    {
+        List<EPlayerAction> playerActions = [];
+        switch (_state.TurnState)
+        {
+            case ETurnState.PlayCard:
+            {
+                foreach (var card in _state.CurrentPlayerHand())
+                {
+                    if (ValidateCardPlayed(card))
+                    {
+                        playerActions.Add(EPlayerAction.PlayCard);
+                        break;
+                    }
+                }
+                playerActions.Add(EPlayerAction.PickUpCards);
+                break;
+            }
+            case ETurnState.PlayCardAfterPickingUp:
+            {
+                playerActions.Add(EPlayerAction.PlayDrawnCard);
+                break;
+            }
+            case ETurnState.ChooseColor:
+            {
+                playerActions.Add(EPlayerAction.ChooseColor);
+                break;
+            }
+            case ETurnState.PlusTwo:
+            {
+                break;
+            }
+            case ETurnState.WildPlusFour:
+            {
+                playerActions.Add(EPlayerAction.PickUpCards);
+                playerActions.Add(EPlayerAction.CallBluff);
+                break;
+            }
+            case ETurnState.RevealLastPlayerCards:
+            {
+                break;
+            }
+            case ETurnState.Skip:
+            {
+                break;
+            }
+        }
+
+        return playerActions;
     }
 }

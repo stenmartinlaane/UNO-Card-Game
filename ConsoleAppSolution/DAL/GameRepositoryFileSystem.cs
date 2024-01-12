@@ -1,7 +1,8 @@
 using System.Runtime.Serialization;
 using System.Text.Json;
+using Config;
 using Domain;
-using Helpers;
+using Domain.Database;
 
 namespace DAL;
 
@@ -24,25 +25,20 @@ public class GameRepositoryFileSystem : IGameRepository
         using StreamWriter writer = System.IO.File.AppendText(Path.Combine(SaveLocation, fileName));
         writer.WriteLine(jsonContent);
     }
-    public List<(Guid id, DateTime dt)> GetSaveGamesData()
+    public List<(GameState gameState, DateTime dt)> GetSaveGamesData()
     {
         var data = Directory.EnumerateFiles(SaveLocation)
             .Where(path =>
                     Path.GetExtension(path) == ".json"
-            );
-        List<(Guid id, DateTime dt)> res = data
-            .Select(
-                path => (
-                    Guid.Parse(Path.GetFileNameWithoutExtension(path)),
+            ).OrderByDescending(path => File.GetLastWriteTime(path));
+
+        var res = data.Select(
+            path => (
+                    GetGameFromFile(path), 
                     File.GetLastWriteTime(path)
                 )
-            ).ToList();
-        
-        res = res
-        .OrderByDescending(game => game.dt)
-        .ToList();
-        
-        return res;
+        ).ToList();
+        return res!;
     }
 
     public GameState? LoadGame(Guid id)
@@ -51,16 +47,21 @@ public class GameRepositoryFileSystem : IGameRepository
         var filePath = Path.Combine(SaveLocation, fileName);
         if (File.Exists(filePath))
         {
-            using StreamReader reader = new StreamReader(filePath);
-            string jsonContent = reader.ReadToEnd();
-
-            var result = JsonSerializer.Deserialize<GameState>(jsonContent, _jsonSerializerOptions);
-
-            return result;
+            return GetGameFromFile(filePath);
         }
         else
         {
             return null;
         }
+    }
+
+    private GameState? GetGameFromFile(String filePath)
+    {
+        using StreamReader reader = new StreamReader(filePath);
+        string jsonContent = reader.ReadToEnd();
+
+        var result = JsonSerializer.Deserialize<GameState>(jsonContent, _jsonSerializerOptions);
+
+        return result;
     }
 }

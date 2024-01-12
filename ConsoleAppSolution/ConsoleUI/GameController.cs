@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.JavaScript;
 using DAL;
 using Domain;
 using GameEngine;
@@ -35,47 +36,53 @@ public class GameController
     public String PlayMatch()
     {
         _reopsitory.Save(_engine.State.Id, _engine.State);
-        Console.Clear();
         while (_engine.State.TurnState != ETurnState.ScoreBoard)
         {
-            String? playerChoice;
-            Console.WriteLine($"Player {_engine.State.ActivePlayerNr + 1} - {_engine.State.CurrentPlayer().NickName}");
-            Console.Write("Your turn, make sure you are alone looking at screen! Press enter to continue...");
-            
-            playerChoice = Console.ReadLine();
+            if (_engine.State.CurrentPlayer().PlayerType == EPlayerType.AI)
+            {
+                _engine.MakeMove(UnoAI.MakeMove(_engine));
+                continue;
+            }
+            String? playerChoice = ConsoleVisualizations.PromptUserForInput(
+                null,
+                () =>
+                {
+                    Console.WriteLine(
+                        $"Player {_engine.State.ActivePlayerNr + 1} - {_engine.State.CurrentPlayer().NickName}");
+                    Console.Write("Your turn, make sure you are alone looking at screen! Press enter to continue...");
+                },
+                "",
+                true
+            );
             if (playerChoice == "e")
             {
                 return playerChoice;
             }
-            Console.Clear();
-            
             while (true)
             {
-                Console.WriteLine($"Player {_engine.State.ActivePlayerNr + 1} - {_engine.State.CurrentPlayer().NickName}");
-                ConsoleVisualizations.DrawBoard(_engine.State);
-                ConsoleVisualizations.DrawPlayerHand(_engine.State.CurrentPlayer());
-                ConsoleVisualizations.AskPlayerMoveMessage(_engine);
                 
-                playerChoice = Console.ReadLine().Trim().ToLower();
-                _engine.TryToMakePlayerMove(playerChoice);
-                if (playerChoice == "e")
-                {
-                    return playerChoice;
-                }
+                ConsoleVisualizations.PromptUserForInput(
+                    (input) =>
+                    {
+                        if (input == "e")
+                        {
+                            return null;
+                        }
+                        _engine.MakeMove(input);
+                        if (_engine.ErrorMessages.Count > 0)
+                        {
+                            return _engine.ErrorMessages.First();
+                        }
 
-                playerChoice = "";
-                if (_engine.ErrorMessage != null)
+                        return null;
+                    },
+                    () => ConsoleVisualizations.DrawInfoForPlayerMove(_engine),
+                    "",
+                    true
+                );
+                _reopsitory.Save(_engine.State.Id, _engine.State);
+                if (_engine.IsTurnOver())
                 {
-                    Console.WriteLine(_engine.ErrorMessage);
-                    _engine.ErrorMessage = null;
-                    Console.WriteLine("====================");
-                    continue;
-                }
-                else if (_engine.IsTurnOver())
-                {
-                    _engine.NextPlayerMove();
-                    _reopsitory.Save(_engine.State.Id, _engine.State);
-                    Console.Clear();
                     break;
                 }
             }

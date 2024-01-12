@@ -6,13 +6,16 @@ public sealed class GameOptions
 
     public int StartingHandSize { get; set; } = 7;
 
-    public bool MultibleCardsPlayedPerTurn { get; set; } = false;
+    public bool MultibleCardsPlayedPerTurn { get; set; }
 
     public int ScoreToWin { get; set; } = 500;
     
-    public GameOptions() { }
-    
     public static GameOptions PlayerEditedGAmeOptions => _playerEditedGAmeOptions ??= new GameOptions();
+
+    public static GameOptions DefaultOptions()
+    {
+        return new GameOptions();
+    }
 
     public GameOptions Clone()
     {

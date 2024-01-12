@@ -55,36 +55,29 @@ public static class ProgramMenus
         
         for (int i = 1; i < playerCount + 1; i++)
         {
-            string playerType;
-            while (true)
+            string playerType = ConsoleVisualizations.PromptUserForInput(
+                (input) =>
+                {
+                    if (input != "a" && input != "h" && input != "")
+                    {
+                        return "Input must a - ai or h - human.";
+                    }
+                    return null;
+                },
+                () => Console.Write($"Player {i} type (A - ai / H - human)[h]:"),
+                "h",
+                true
+            );
+            string playerName = ConsoleVisualizations.PromptUserForInput(
+                null,
+                () => Console.Write($"Player {i} Name[{playerType + i}]:"),
+                "",
+                true
+            );
+            if (playerName == "")
             {
-                Console.Write($"Player {i} type (A - ai / H - human)[h]:");
-                playerType = Console.ReadLine()?.Trim();
-                if (playerType == "")
-                {
-                    playerType = "h";
-                }
-                if (playerType is "h" or "a")
-                {
-                    break;
-                }
+                playerName = playerType + i;
             }
-            
-            string playerName;
-            while (true)
-            {
-                Console.Write($"Player {i} Name[{playerType + i}]:");
-                playerName = Console.ReadLine()?.Trim();
-                if (playerName == "")
-                {
-                    playerName = playerType + i;
-                }
-                if (playerName != null)
-                {
-                    break;
-                }
-            }
-            
             Player player = new Player(playerType, playerName);
             
             players.Add(player);
@@ -118,60 +111,75 @@ public static class ProgramMenus
 
     private static void PromptToChangeScore()
     {
-        Console.Clear();
-        int cardCount;
-        while (true)
-        { Console.Write("How many points does player need to win? (1 - 2000)[500]: ");
-            var input = Console.ReadLine()?.Trim();
-            if (input == "")
+        String playerChoice = ConsoleVisualizations.PromptUserForInput(
+            (input) =>
             {
-                input = "500";
-            }
-            
-            if (!int.TryParse(input, out cardCount)) continue;
-            if (cardCount is >= 1 and <= 2000)
-            {
-                break;
-            }
-        }
-        GameOptions.PlayerEditedGAmeOptions.ScoreToWin = cardCount;
+                if (input == "")
+                {
+                    return null;
+                }
+                if (!int.TryParse(input, out int result))
+                {
+                    return "Input must be numeric";
+                }
+
+                if (!(2 <= result && result <= 20))
+                {
+                    return "Input must be between numbers 2 and 20.";
+                }
+
+                return null;
+            },
+            () => Console.WriteLine("How many cards should each player have it starting hand? (2 - 20)[7]: "),
+            "2",
+            true
+        );
+        GameOptions.PlayerEditedGAmeOptions.ScoreToWin = int.Parse(playerChoice);
     }
     
     private static void PromptToChangeHandSize()
     {
         Console.Clear();
-        int cardCount;
-        while (true)
-        { Console.Write("How many cards should each player have it starting hand? (2 - 20)[7]: ");
-            var input = Console.ReadLine()?.Trim();
-            if (input == "")
+        String playerChoice = ConsoleVisualizations.PromptUserForInput(
+            (input) =>
             {
-                input = "7";
-            }
-            
-            if (!int.TryParse(input, out cardCount)) continue;
-            if (cardCount is >= 2 and <= 20)
-            {
-                break;
-            }
-        }
-        GameOptions.PlayerEditedGAmeOptions.StartingHandSize = cardCount;
+                if (input == "")
+                {
+                    return null;
+                }
+                if (!int.TryParse(input, out int result))
+                {
+                    return "Input must be numeric";
+                }
+
+                if (!(2 <= result && result <= 20))
+                {
+                    return "Input must be between numbers 2 and 20.";
+                }
+
+                return null;
+            },
+            () => Console.WriteLine("How many cards should each player have it starting hand? (2 - 20)[7]: "),
+            "7",
+            true
+        );
+        GameOptions.PlayerEditedGAmeOptions.StartingHandSize = int.Parse(playerChoice);
     }
 
     public static Menu GetLoadMenu(IGameRepository gameRepository)
     {
-        List<(Guid id, DateTime dt)> gamesData = gameRepository.GetSaveGamesData();
+        var gamesData = gameRepository.GetSaveGamesData();
         List<MenuItem> menuItems = [];
 
         for (int i = 0; i < gamesData.Count; i++)
         {
-            (Guid id, DateTime dt) gameData = gamesData[i];
+            var gameData = gamesData[i];
             MenuItem menuItem = new MenuItem()
             {
                 Shortcut = (i + 1).ToString() ,
                 MenuLabel = $"Game Saved At - {gameData.dt}",
                 Action = new GameController(
-                    new UnoEngine(gameRepository.LoadGame(gameData.id)!),
+                    new UnoEngine(gameRepository.LoadGame(gameData.gameState.Id)!),
                     new GameRepositoryFileSystem()
                 ).Run
             };

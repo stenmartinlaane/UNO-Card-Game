@@ -1,7 +1,7 @@
 using System.Text.Json;
+using Config;
 using Domain;
 using Domain.Database;
-using Helpers;
 
 namespace DAL;
 
@@ -27,16 +27,21 @@ public class GameRepositoryEF(AppDbContext ctx) : IGameRepository
             game.UpdatedAtDt = DateTime.Now;
             game.State = JsonSerializer.Serialize(state, _jsonSerializerOptions);
         }
-        var changeCount = ctx.SaveChanges();
+        ctx.SaveChanges();
     }
 
-    public List<(Guid id, DateTime dt)> GetSaveGamesData()
+    public List<(GameState gameState, DateTime dt)> GetSaveGamesData()
     {
         return ctx.Games
             .OrderByDescending(g => g.UpdatedAtDt)
+            .Select(game => new
+            {
+                GameState = JsonSerializer.Deserialize<GameState>(game.State, _jsonSerializerOptions),
+                game.UpdatedAtDt
+            })
             .ToList()
-            .Select(g => (g.Id, g.UpdatedAtDt))
-            .ToList();
+            .Select(result => (result.GameState, result.UpdatedAtDt))
+            .ToList()!;
     }
 
 

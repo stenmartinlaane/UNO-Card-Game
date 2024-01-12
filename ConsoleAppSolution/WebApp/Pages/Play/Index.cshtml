@@ -1,0 +1,20 @@
+@page
+@model WebApp.Pages.Play.Index
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>PLAY UNO!</h1>
+
+<form method="post">
+    <button type="submit" name="button" value="CreateNewGame">Create new Game</button>
+</form>
+
+<form method="post">
+    <button type="submit" name="button" value="LoadGame">Load Game</button>
+</form>
+
+<form method="post">
+    <button type="submit" name="button" value="JoinGame">Join Game</button>
+</form>
