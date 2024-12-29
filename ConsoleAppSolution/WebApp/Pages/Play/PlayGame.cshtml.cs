@@ -22,7 +22,7 @@ public class PlayGame(IGameRepository gameRepository, DAL.AppDbContext context) 
     [BindProperty(SupportsGet = true)]
     public Guid GameId { get; set; }
     [BindProperty] public new Player User { get; set; } = new();
-    [BindProperty] public GameState GameState { get; set; }
+    [BindProperty] public GameState? GameState { get; set; }
     [BindProperty] public Guid? AdminId { get; set; }
     [BindProperty] public bool IsMyTurn { get; set; }
     [BindProperty] public Game Game { get; set; } = default!;

@@ -22,7 +22,7 @@ public class JoinGame : PageModel
     }
     
     [BindProperty]
-    public String GameId { get; set; }
+    public String? GameId { get; set; }
     
     public IActionResult OnPost()
     {

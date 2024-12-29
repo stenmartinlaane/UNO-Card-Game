@@ -13,7 +13,7 @@
     @Html.Raw(Model.ErrorMessage)
 }
 @{
-    string players = string.Join(", ", Model.GameState.Players.Where(p => p.PlayerType == EPlayerType.Human).Select(p => p.NickName));
+    string players = string.Join(", ", Model.GameState!.Players.Where(p => p.PlayerType == EPlayerType.Human).Select(p => p.NickName));
     string computers = string.Join(", ", Model.GameState.Players.Where(p => p.PlayerType == EPlayerType.AI).Select(p => p.NickName));
     @("Players in lobby: ")
     @players

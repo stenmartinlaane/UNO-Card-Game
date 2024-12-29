@@ -30,7 +30,7 @@ public class CreateGame : PageModel
     public Guid GameId { get; set; }
 
     [BindProperty] public new Player User { get; set; } = new();
-    [BindProperty] public GameState GameState { get; set; }
+    [BindProperty] public GameState? GameState { get; set; }
     [BindProperty] public Guid? AdminId { get; set; } = new Guid();
 
     [BindProperty] public Game? Game { get; set; } = default!;
@@ -61,14 +61,14 @@ public class CreateGame : PageModel
     {
         if (submitType == "ChangeNickname")
         {
-            GameState = JsonSerializer.Deserialize<GameState>(Game.State, JsonConfig.JsonSerializerOptions)!;
+            GameState = JsonSerializer.Deserialize<GameState>(Game!.State, JsonConfig.JsonSerializerOptions)!;
             GameState.Players.First(p => PlayerId == p.PlayerId).NickName = User.NickName;
             _gameRepository.Save(GameState.Id, GameState);
             return RedirectToPage("/Play/CreateGame", new { PlayerId, GameId });
         }
         else if (submitType == "CreateNewGame")
         {
-            GameState = JsonSerializer.Deserialize<GameState>(Game.State, JsonConfig.JsonSerializerOptions)!;
+            GameState = JsonSerializer.Deserialize<GameState>(Game!.State, JsonConfig.JsonSerializerOptions)!;
             GameState.GameOptions.StartingHandSize = HandSize;
             GameState.GameOptions.ScoreToWin = ScoreToWin;
             GameState.SearchingForPlayers = false;
@@ -78,7 +78,7 @@ public class CreateGame : PageModel
         }
         else if (submitType == "AddAI")
         {
-            GameState = JsonSerializer.Deserialize<GameState>(Game.State, JsonConfig.JsonSerializerOptions)!;
+            GameState = JsonSerializer.Deserialize<GameState>(Game!.State, JsonConfig.JsonSerializerOptions)!;
             GameState.Players.Add(new Player()
             {
                 NickName = BotName,
@@ -92,7 +92,7 @@ public class CreateGame : PageModel
         {
             Console.WriteLine("here");
             PlayerId = Guid.Parse(pid);
-            GameState = JsonSerializer.Deserialize<GameState>(Game.State, JsonConfig.JsonSerializerOptions)!;
+            GameState = JsonSerializer.Deserialize<GameState>(Game!.State, JsonConfig.JsonSerializerOptions)!;
             Player playerToRemove = GameState.Players.First(p => p.PlayerId == PlayerId);
             GameState.Players.Remove(playerToRemove);
             _gameRepository.Save(GameState.Id, GameState);

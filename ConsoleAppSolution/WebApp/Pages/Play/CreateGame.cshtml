@@ -27,7 +27,7 @@
 <p></p>
 @{
     int i = 1;
-    @foreach (var player in Model.GameState.Players)
+    @foreach (var player in Model.GameState!.Players)
     {
         @(player.NickName + " - " + (player.PlayerType == EPlayerType.Human ? "Human" : "AI"))
         <form method="post">

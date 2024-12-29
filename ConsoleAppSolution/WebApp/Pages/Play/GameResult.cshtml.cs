@@ -30,9 +30,9 @@ public class GameResult : PageModel
     public Guid GameId { get; set; }
     
     [BindProperty]
-    public GameState GameState { get; set; }
+    public GameState? GameState { get; set; }
     
-    public new Player User { get; set; }
+    public new Player? User { get; set; }
     
     public IActionResult OnGetAsync()
     {

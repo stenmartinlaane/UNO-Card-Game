@@ -5,7 +5,7 @@
 @{
     ViewData["Title"] = "Results";
 }
-@if (Model.GameState.Winner != null)
+@if (Model.GameState!.Winner != null)
 {
     @($"Winner is {Model.GameState.Winner.NickName} + with {Model.GameState.Winner} points.")
 }
