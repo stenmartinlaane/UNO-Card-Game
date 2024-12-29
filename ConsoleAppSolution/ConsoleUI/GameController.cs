@@ -9,7 +9,7 @@ public class GameController
 {
     private readonly UnoEngine _engine;
     private readonly IGameRepository _reopsitory;
-    private readonly ConsoleVisualizations _consoleVisualizations;
+    // private readonly ConsoleVisualizations _consoleVisualizations;
 
     public GameController(UnoEngine engine, IGameRepository reopsitory)
     {
@@ -30,7 +30,12 @@ public class GameController
             _engine.StartNewGame(_engine.State.GameOptions, _engine.State.Players);
         }
         Console.Clear();
-        Console.WriteLine($"{_engine.GetGameWinner().NickName} has won the UNO game with {_engine.GetGameWinner()!.Points} points.");
+        Player? winner = _engine.GetGameWinner();
+        if (winner == null)
+        {
+            throw new Exception("Invalid state");
+        }
+        Console.WriteLine($"{winner.NickName} has won the UNO game with {_engine.GetGameWinner()!.Points} points.");
         Console.Read();
     }
 

@@ -10,7 +10,7 @@ public class UnoEngine
         private set => _state = value;
     }
 
-    private GameState _state { get; set; }
+    private GameState _state { get; set; } = null!;
     
     public List<String> ErrorMessages { get; set; } = new();
     
@@ -107,9 +107,14 @@ public class UnoEngine
 
     private void ShuffleDeckOfCards()
     {
+        if (_state.DeckOfGameCardsInPlay.Count < 1)
+        {
+            throw new Exception("No cards to shuffle.");
+        }
+        
         while (true)
         {
-            List<GameCard?> shuffledDeck = new();
+            List<GameCard> shuffledDeck = new();
             while (_state.DeckOfGameCardsInPlay.Count > 0)
             {
                 int randomPositionInDeck = Rnd.Next(_state.DeckOfGameCardsInPlay.Count());
@@ -118,7 +123,8 @@ public class UnoEngine
             }
 
             _state.DeckOfGameCardsInPlay = shuffledDeck;
-            if (shuffledDeck[^1].CardText == ECardText.ChooseColorPlusFour)
+            var lastCard = _state.DeckOfGameCardsInPlay[^1];
+            if (lastCard.CardText == ECardText.ChooseColorPlusFour)
             {
                 continue;
             }
@@ -281,7 +287,8 @@ public class UnoEngine
             case ETurnState.RevealLastPlayerCards:
             {
                 WildPlusFourAction();
-                _state.TurnState = ETurnState.RevealLastPlayerCards;
+                _state.TurnState = ETurnState.PlayCard;
+                _state.DoubleTurn = true;
                 break;
             }
             case ETurnState.Skip:

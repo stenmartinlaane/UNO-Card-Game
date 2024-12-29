@@ -110,8 +110,13 @@ public class ConsoleVisualizations
 
     public static void DrawScoreBoard(GameState state)
     {
-        Console.WriteLine($"{state.Winner.NickName} won the uno match!");
-        
+        if (state.Winner == null)
+        {
+            Console.WriteLine("Match not finished.");
+        } else
+        {
+            Console.WriteLine($"{state.Winner.NickName} won the uno match!");
+        }
         Console.WriteLine("SCOREBOARD");
         Console.WriteLine($"Play is until {state.GameOptions.ScoreToWin} points.");
         Console.WriteLine("Current standings:");

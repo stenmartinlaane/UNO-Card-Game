@@ -16,7 +16,7 @@
         <label asp-for="User.NickName">Nickname:</label>
         <input asp-for="User.NickName"/>
         <input asp-for="Game" type="hidden"/>
-        <input asp-for="Game.State" type="hidden"/>
+        <input asp-for="Game!.State" type="hidden"/>
         <input asp-for="GameId" type="hidden"/>
         <input asp-for="PlayerId" type="hidden"/>
         <span asp-validation-for="User.NickName" class="text-danger"></span>
@@ -32,7 +32,7 @@
         @(player.NickName + " - " + (player.PlayerType == EPlayerType.Human ? "Human" : "AI"))
         <form method="post">
             <input asp-for="Game" type="hidden"/>
-            <input asp-for="Game.State" type="hidden"/>
+            <input asp-for="Game!.State" type="hidden"/>
             <input asp-for="GameId" type="hidden"/>
             <input asp-for="PlayerId" type="hidden"/>
             <input type="hidden" name="submitType" value="remove"/>
@@ -50,7 +50,7 @@
             <label asp-for="BotName">AI Name:</label>
             <input asp-for="BotName"/>
             <input asp-for="Game" type="hidden"/>
-            <input asp-for="Game.State" type="hidden"/>
+            <input asp-for="Game!.State" type="hidden"/>
             <input asp-for="GameId" type="hidden"/>
             <input asp-for="PlayerId" type="hidden"/>
             <span asp-validation-for="BotName" class="text-danger"></span>
@@ -72,7 +72,7 @@
             <span asp-validation-for="ScoreToWin" class="text-danger"></span>
         </div>
         <input asp-for="Game" type="hidden"/>
-        <input asp-for="Game.State" type="hidden"/>
+        <input asp-for="Game!.State" type="hidden"/>
         <input asp-for="GameId" type="hidden"/>
         <input asp-for="PlayerId" type="hidden"/>
         <button type="submit" name="submitType" value="CreateNewGame">Start Game</button>

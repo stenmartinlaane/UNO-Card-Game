@@ -1,0 +1,50 @@
+@page
+@using Domain
+@model WebApp.Pages.Search.Students
+
+@{
+}
+@if(!@Model.Add){
+    <form method="post">
+        <input type="hidden" name="method" value="addStudentFrom"/>
+        <div class="form-group">
+            <input type="submit" value="Add new Student" class="btn btn-primary"/>
+        </div>
+    </form>
+}
+@if(@Model.Add)
+{
+    <form method="post">
+        <input type="hidden" name="method" value="addStudent"/>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Person.FirstName" class="control-label"></label>
+            <input asp-for="Person.FirstName" class="form-control"/>
+            <span asp-validation-for="Person.FirstName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Person.LastName" class="control-label"></label>
+            <input asp-for="Person.LastName" class="form-control"/>
+            <span asp-validation-for="Person.LastName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Person.StudentCode" class="control-label"></label>
+            <input asp-for="Person.StudentCode" class="form-control"/>
+            <span asp-validation-for="Person.StudentCode" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Add Student" class="btn btn-primary"/>
+        </div>
+    </form>
+}
+<br/>
+<hr/>
+@foreach (Person person in Model.Persons)
+{
+    <form method="post">
+        <input type="hidden" name="method" value="data"/>
+        <input value="@person.PersonId" name="PersonId" type="hidden"/>
+        <button type="submit" class="btn btn-primary">@person.FirstName @person.LastName</button>
+    </form>
+    <br/>
+}

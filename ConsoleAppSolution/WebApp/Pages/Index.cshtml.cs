@@ -20,7 +20,6 @@ public class IndexModel : PageModel
 
     public void OnGet()
     {
-        RedirectToPage("./Play/Index");
         Count = _ctx.Games.Count();
     }
 }

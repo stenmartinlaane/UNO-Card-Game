@@ -1,0 +1,40 @@
+@page
+@using Domain
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.EntityFrameworkCore
+@model WebApp.Pages.Statistics.SubjectsData
+
+@{
+}
+
+@Html.Raw(Model.Subject.SubjectName)
+
+
+<form method="post">
+    <input type="hidden" name="method" value="addData"/>
+    <input asp-for="SubjectId" type="hidden"/>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="SubjectGiven.InSemester" class="control-label"></label>
+        <select asp-for="SubjectGiven.InSemester" asp-items="Html.GetEnumSelectList<Semester>()" class="form-control"></select>
+        <span asp-validation-for="SubjectGiven.InSemester" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="SubjectGiven.Year" class="control-label"></label>
+        <input asp-for="SubjectGiven.Year" class="form-control"/>
+        <span asp-validation-for="SubjectGiven.Year" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary"/>
+    </div>
+</form>
+
+@foreach (SubjectGiven subjectGiven in Model.SubjectGivens)
+{
+    <form method="post">
+        <input type="hidden" name="method" value="data"/>
+        <input value="@subjectGiven.SubjectGivenId" name="SubjectGivenId" type="hidden"/>
+        <button type="submit" class="btn btn-primary">@subjectGiven.Year @subjectGiven.InSemester</button>
+    </form>
+    <br/>
+}

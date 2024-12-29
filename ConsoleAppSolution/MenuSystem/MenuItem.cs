@@ -4,7 +4,7 @@ namespace MenuSystem;
 
 public class MenuItem
 {
-    public string MenuLabel { get; set; }
+    public string MenuLabel { get; set; } = "";
 
     public Func<string>? MenuLabelFunction { get; set; } = null;
     public string Shortcut { get; set; } = default!;
